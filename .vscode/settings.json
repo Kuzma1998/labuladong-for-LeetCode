@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.m": "matlab",
-        "algorithm": "cpp",
-        "limits": "cpp"
-    }
-}
