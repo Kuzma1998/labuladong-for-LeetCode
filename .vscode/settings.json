@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.m": "matlab",
-        "utility": "cpp"
+        "utility": "cpp",
+        "algorithm": "cpp"
     }
 }
