@@ -1,7 +1,5 @@
 //思路，层序遍历 队列存储结点以及它在这一层的位置。
 
-
-
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -13,7 +11,7 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
- 
+
 class Solution {
 public:
     int widthOfBinaryTree(TreeNode* root) {
@@ -44,6 +42,5 @@ public:
             width = max(width,right-left+1);
         }
         return width;
-
     }
 };
