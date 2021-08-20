@@ -2,6 +2,7 @@
     "files.associations": {
         "*.m": "matlab",
         "vector": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "iostream": "cpp"
     }
 }
