@@ -9,7 +9,7 @@
 
 class Solution {
     private:
-     <string,bool> map;
+    map<string,bool> map;
 public:
      bool dp(string s,int i, string p, int j){
         int m = s.size();
