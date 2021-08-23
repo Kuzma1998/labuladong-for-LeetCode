@@ -29,6 +29,7 @@ public:
                     dp[i][j] =  (min(dp[i+1][j],dp[i][j+1])-dungeon[i][j]>0)?  // 非特殊情况的状态转移方程
                                 min(dp[i+1][j],dp[i][j+1])-dungeon[i][j]: 1;
             }
+            
         }
         return dp[0][0];
     }
