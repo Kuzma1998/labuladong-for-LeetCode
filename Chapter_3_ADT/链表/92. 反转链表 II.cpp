@@ -4,8 +4,11 @@
  * @Author: Li Jiaxin
  * @Date: 2021-09-06 22:18:03
  * @LastEditors: Li Jiaxin
- * @LastEditTime: 2021-09-06 22:22:29
+ * @LastEditTime: 2021-09-08 10:45:07
  */
+
+// 给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。
+
 
 // 思路：两次循环。第一次循环找到要反转的位置，第二次循环反转,头插法，每次反转要把被反转的那个元素放到反转部分的开头，这样反转多次可以达到效果。
 
