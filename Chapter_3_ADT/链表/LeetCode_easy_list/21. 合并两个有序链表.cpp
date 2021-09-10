@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-09-08 16:57:38
  * @LastEditors: Li Jiaxin
- * @LastEditTime: 2021-09-08 17:00:02
+ * @LastEditTime: 2021-09-09 21:55:00
  */
 
 
@@ -43,3 +43,23 @@ public:
 
 
 // 递归解法   之后填坑
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) { // 函数定义，给定两个链表，返回合并后的链表的头节点
+        // base case
+        if(!l1)
+            return l2;
+        if(!l2)
+            return l1;
+        // 这两个节点要干啥
+        if(l1->val<l2->val){
+            l1->next = mergeTwoLists(l1->next,l2);
+            return l1;
+            
+        }else{
+            l2->next = mergeTwoLists(l1,l2->next);
+            return l2;
+        }
+    }
+};
