@@ -6,9 +6,6 @@
 //非递归就用层序遍历
 
 
-
-
-
 struct TreeNode
 {
     int val;
