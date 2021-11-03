@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-31 16:01:47
  * @LastEditors: Li Jiaxin
- * @LastEditTime: 2021-10-31 16:03:17
+ * @LastEditTime: 2021-11-03 20:40:05
  */
 // 给你一个字符串 s ，逐个翻转字符串中的所有 单词 。
 // 单词 是由非空格字符组成的字符串。s 中使用至少一个空格将字符串中的 单词 分隔开。
@@ -59,3 +59,27 @@ public:
     }
 
 };
+
+// 双指针移除空格
+void removeExtraSpaces(string& s) {
+    int slowIndex = 0, fastIndex = 0; // 定义快指针，慢指针
+    // 去掉字符串前面的空格
+    while (s.size() > 0 && fastIndex < s.size() && s[fastIndex] == ' ') {
+        fastIndex++;
+    }
+    for (; fastIndex < s.size(); fastIndex++) {
+        // 去掉字符串中间部分的冗余空格
+        if (fastIndex - 1 > 0
+                && s[fastIndex - 1] == s[fastIndex]
+                && s[fastIndex] == ' ') {
+            continue;
+        } else {
+            s[slowIndex++] = s[fastIndex];
+        }
+    }
+    if (slowIndex - 1 > 0 && s[slowIndex - 1] == ' ') { // 去掉字符串末尾的空格
+        s.resize(slowIndex - 1);
+    } else {
+        s.resize(slowIndex); // 重新设置字符串大小
+    }
+}
