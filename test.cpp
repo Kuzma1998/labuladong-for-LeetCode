@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Li Jiaxin
- * @LastEditTime: 2021-11-03 21:46:40
+ * @LastEditTime: 2021-11-05 20:22:44
  */
 #include <iostream>
 #include <string>
@@ -134,49 +134,102 @@ using namespace std;
 //     return 0;
 // }
 
+// class Solution {
+// private:
+//     unordered_map<char,int> map;
+//     unordered_map<char,int> map2;
+// public:
+//     vector<int> findAnagrams(string s, string p) {
+//         vector<int> ans;
+//         int s_l = s.size(),p_l = p.size();
+//         if(s_l<p_l)
+//             return ans;
+//         for(auto i:p){
+//             if(!map.count(i))
+//                 map[i] =1;
+//             else
+//                 map[i] += 1;
+//         }
+//         for(int i=0;i<=s.size()-p_l;++i){
+//             map2 =map;
+//             for(auto c:s.substr(i,p_l)){
+//                 if(map2.count(c)){
+//                     map2[c]-=1;
+//                     if(map2[c]==0){
+//                         map2.erase(c);
+//                     }
+//                 }
+//             }
+//             if(map2.empty())
+//                 ans.push_back(i);
+//         }
+//         return ans;
+//     }
+// };
+
+// int main(){
+//     Solution solver;
+//     string s1 = "cbaebabacd";
+//     string s2 = "abc";
+//     vector<int> ans = solver.findAnagrams(s1,s2);
+//     for(auto i:ans){
+//         cout<<" "<<i;
+//     }
+//     return 0;
+
+// }
+
+// class Solution {
+// public:
+//     int lengthOfLongestSubstring(string s) {
+//         int max_len = 0,length=0;
+//         int n = s.size(), i=0,j=0;
+//         // d当j小于n
+//         while(j<n){
+//             char temp=s[j];// 保存第j个字符
+//             // for循环用于判断从i开始是否有元素与s[j]相等
+//             for(int index=i;index<j;++index){
+//                 //若有，记录为index，有的话就改变i的位置
+//                 if(s[index]==temp){
+//                     i=index+1;
+//                     length = j-i;//求长度
+//                     break;
+//                 }
+//             }
+//             ++j;
+//             ++length;
+//             max_len = max(max_len,length);
+//         }
+//         return max_len;
+//     }
+// };
+
 class Solution {
 private:
     unordered_map<char,int> map;
-    unordered_map<char,int> map2;
 public:
-    vector<int> findAnagrams(string s, string p) {
-        vector<int> ans;
-        int s_l = s.size(),p_l = p.size();
-        if(s_l<p_l)
-            return ans;
-        for(auto i:p){
-            if(!map.count(i))
-                map[i] =1;
-            else
-                map[i] += 1;
-        }
-        for(int i=0;i<=s.size()-p_l;++i){
-            map2 =map;
-            for(auto c:s.substr(i,p_l)){
-                if(map2.count(c)){
-                    map2[c]-=1;
-                    if(map2[c]==0){
-                        map2.erase(c);
-                    }
-                }
+    int lengthOfLongestSubstring(string s) {
+        int max_len=1;
+        int j=0;
+        if(s.size()==0)
+            return 0;
+        for(int i=0;i<s.size();++i){
+            while(j<s.size()&&!map.count(s[j])){
+                map[s[j]]=1;
+                ++j;
             }
-            if(map2.empty())
-                ans.push_back(i);
+            max_len=max(j-i,max_len);
+            if(j==s.size())
+                break;
+            map.erase(s[i]);
         }
-        return ans;
+        return max_len;
     }
 };
 
+
 int main(){
-    Solution solver;
-    string s1 = "cbaebabacd";
-    string s2 = "abc";
-    vector<int> ans = solver.findAnagrams(s1,s2);
-    for(auto i:ans){
-        cout<<" "<<i;
-    }
-    return 0;
-
-
-    
+     Solution solver;
+     string s ="aab";
+     cout << solver.lengthOfLongestSubstring(s) << endl;
 }
