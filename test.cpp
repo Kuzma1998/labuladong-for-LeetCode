@@ -3,13 +3,16 @@
  * @version: 
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
- * @LastEditors: Li Jiaxin
- * @LastEditTime: 2021-11-05 20:22:44
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-12-03 21:56:11
  */
 #include <iostream>
 #include <string>
-#include<vector>
-#include<unordered_map>
+#include <vector>
+#include <unordered_map>
+#include <sstream>
+#include <stack>
+#include <deque>
 using namespace std;
 
 // class Solution {
@@ -74,11 +77,11 @@ using namespace std;
 //             string s1 = s.substr(0,i);
 //             for(int j=n/i;j!=0;--j)
 //                 temp+=s1;
-//             if(temp==s) 
+//             if(temp==s)
 //                 return true;
 //         }
 //         return false;
-       
+
 //     }
 // };
 
@@ -89,7 +92,6 @@ using namespace std;
 //     cout<< solver.repeatedSubstringPattern(str)<<endl;
 //     return 0;
 // }
-
 
 // class Solution {
 // private:
@@ -105,7 +107,7 @@ using namespace std;
 //             while(i<j&&!isYuanYin(s[j]))
 //                 --j;
 //             if(i==j)
-//                 break;                
+//                 break;
 //             if(isYuanYin(s[i])&&isYuanYin(s[j])){
 //             char temp;
 //             temp = s[j];
@@ -204,32 +206,180 @@ using namespace std;
 //     }
 // };
 
-class Solution {
-private:
-    unordered_map<char,int> map;
+// class Solution {
+// private:
+//     unordered_map<char,int> map;
+// public:
+//     int lengthOfLongestSubstring(string s) {
+//         int max_len=1;
+//         int j=0;
+//         if(s.size()==0)
+//             return 0;
+//         for(int i=0;i<s.size();++i){
+//             while(j<s.size()&&!map.count(s[j])){
+//                 map[s[j]]=1;
+//                 ++j;
+//             }
+//             max_len=max(j-i,max_len);
+//             if(j==s.size())
+//                 break;
+//             map.erase(s[i]);
+//         }
+//         return max_len;
+//     }
+// };
+
+// int main(){
+//      Solution solver;
+//      string s ="aab";
+//      cout << solver.lengthOfLongestSubstring(s) << endl;
+// }
+
+// class Solution {
+// private:
+//     stack<char> stk;
+// public:
+//     bool isValid(string s) {
+//         int i =0;
+//         while(i<s.size()){
+//             if(s[i]=='['||s[i]=='('||s[i]=='{')
+//                 stk.push(s[i]);
+//             if(s[i]==')'){
+//                 if(stk.empty())
+//                     return false;
+//                 if(s[i]==stk.top()){
+//                     stk.pop();
+//                 }
+//                 if(s[i]!=stk.top())
+//                     return false;
+//             }
+//             if(s[i]==']'){
+//                 if(stk.empty())
+//                     return false;
+//                 if(s[i]==stk.top()){
+//                     stk.pop();
+//                 }
+//                 if(s[i]!=stk.top())
+//                     return false;
+//             }
+//             if(s[i]=='}'){
+//                 if(stk.empty())
+//                     return false;
+//                 if(s[i]==stk.top()){
+//                     stk.pop();
+//                 }
+//                 if(s[i]!=stk.top())
+//                     return false;
+//             }
+//             ++i;
+//         }
+//         return true;
+//     }
+// };
+
+// int main(){
+//      Solution solver;
+//      string s ="()";
+//      cout << solver.isValid(s) << endl;
+// }
+
+// class Solution {
+// public:
+//     int evalRPN(vector<string> tokens) {
+//         stack<int> stk;
+//         for(int i=0;i<tokens.size();++i){
+//              if(tokens[i]!="+"&&tokens[i]!="-"&&tokens[i]!="*"&&tokens[i]!="/")
+//                 stk.push(str2num(tokens[i]));
+//             else{
+//                 int nums1 = stk.top();
+//                 stk.pop();
+//                 int nums2 = stk.top();
+//                 stk.pop();
+//                 int nums3;
+//                 if(tokens[i]=="+")
+//                     nums3 = nums1+nums2;
+//                 else if(tokens[i]=="-")
+//                     nums3 = nums2-nums1;
+//                 else if(tokens[i]=="*")
+//                     nums3 = nums2*nums1;
+//                 else if(tokens[i]=="/")
+//                     nums3 = nums2/nums1;
+//                 stk.push(nums3);
+//             }
+//         }
+//         return stk.top();
+//     }
+
+//     int  str2num(string s){
+//         int num;
+//         stringstream ss(s);
+//         ss>>num;
+//         return num;
+//     }
+// };
+
+// int main(){
+//      Solution solver;
+//      cout << solver.evalRPN({"10","6","9","3","+","-11","*","/","*","17","+","5","+"}) << endl;
+//      return 0;
+// }
+class MyQueue
+{ //单调队列（从大到小）
 public:
-    int lengthOfLongestSubstring(string s) {
-        int max_len=1;
-        int j=0;
-        if(s.size()==0)
-            return 0;
-        for(int i=0;i<s.size();++i){
-            while(j<s.size()&&!map.count(s[j])){
-                map[s[j]]=1;
-                ++j;
-            }
-            max_len=max(j-i,max_len);
-            if(j==s.size())
-                break;
-            map.erase(s[i]);
+    deque<int> que; // 使用deque来实现单调队列
+    // 每次弹出的时候，比较当前要弹出的数值是否等于队列出口元素的数值，如果相等则弹出。
+    // 同时pop之前判断队列当前是否为空。
+    void pop(int value)
+    {
+        if (!que.empty() && value == que.front())
+        {
+            que.pop_front();
         }
-        return max_len;
+    }
+    // 如果push的数值大于入口元素的数值，那么就将队列后端的数值弹出，直到push的数值小于等于队列入口元素的数值为止。
+    // 这样就保持了队列里的数值是单调从大到小的了。
+    void push(int value)
+    {
+        while (!que.empty() && value > que.back())
+        {
+            que.pop_back();
+        }
+        que.push_back(value);
+    }
+    // 查询当前队列里的最大值 直接返回队列前端也就是front就可以了。
+    int front()
+    {
+        return que.front();
+    }
+};
+class Solution
+{
+public:
+    vector<int> maxSlidingWindow(vector<int> nums, int k)
+    {
+        MyQueue que;
+        vector<int> result;
+        for (int i = 0; i < k; i++)
+        { // 先将前k的元素放进队列
+            que.push(nums[i]);
+        }
+        result.push_back(que.front()); // result 记录前k的元素的最大值
+        for (int i = k; i < nums.size(); i++)
+        {
+            que.pop(nums[i - k]);          // 滑动窗口移除最前面元素
+            que.push(nums[i]);             // 滑动窗口前加入最后面的元素
+            result.push_back(que.front()); // 记录对应的最大值
+        }
+        return result;
     }
 };
 
-
-int main(){
-     Solution solver;
-     string s ="aab";
-     cout << solver.lengthOfLongestSubstring(s) << endl;
+int main()
+{
+    Solution solver;
+    vector<int> vec;
+    vec = solver.maxSlidingWindow({1, 3, -1, -3, 5, 3, 6, 7}, 3);
+    for (auto i : vec)
+        cout << i << endl;
+    return 0;
 }

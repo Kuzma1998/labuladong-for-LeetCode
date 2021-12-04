@@ -4,6 +4,7 @@
         "utility": "cpp",
         "algorithm": "cpp",
         "xstring": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "ostream": "cpp"
     }
 }
