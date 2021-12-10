@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-07 09:19:37
+ * @LastEditTime: 2021-12-10 10:53:58
  */
 #include <iostream>
 #include <string>
@@ -14,6 +14,7 @@
 #include <stack>
 #include <deque>
 #include <queue>
+#include <algorithm>
 using namespace std;
 
 // class Solution {
@@ -385,37 +386,94 @@ using namespace std;
 //     return 0;
 // }
 
+// class Solution {
+// public:
+//     vector<int> topKFrequent(vector<int> nums, int k) {
+//         unordered_map<int,int> map;
+//         priority_queue<pair<int,int>> pq;
+//         vector<int> ans;
+//         for(auto i:nums){
+//             if(map.count(i))
+//                 map[i]++;
+//             else
+//                 map[i] =1;
+//         }
+//         for(auto v:map){
+//             pair<int,int> p(v.first,v.second);
+//             pq.push(p);
+//         }
+//         for(int i=0;i<k;++i){
+//             ans.push_back(pq.top().first);
+//             pq.pop();
+//         }
+//         return ans;
 
-class Solution {
+//     }
+// };
+
+// int main(){
+//       Solution solver;
+//       vector<int> ans;
+//       ans = solver.topKFrequent({-1,-1},1);
+//       for(auto i:ans)
+//         cout<<i<<endl;
+// }
+
+class Solution
+{
+private:
+    vector<vector<int>> res;
+
 public:
-    vector<int> topKFrequent(vector<int> nums, int k) {
-        unordered_map<int,int> map;
-        priority_queue<pair<int,int>> pq;
-        vector<int> ans;
-        for(auto i:nums){
-            if(map.count(i))
-                map[i]++;
-            else
-                map[i] =1;
+    vector<vector<int>> permuteUnique(vector<int> &nums)
+    {
+        vector<int> road(0, nums.size());
+        vector<bool> used(nums.size(),0);
+        sort(nums.begin(), nums.end());
+        backtrack(road, nums, used);
+        return res;
+    }
+    // 回溯
+    void backtrack(vector<int> &road, vector<int> &nums, vector<bool> &used)
+    {
+        if (nums.size() == road.siz())
+        {
+            res.push_back(road);
+            return;
         }
-        for(auto v:map){
-            pair<int,int> p(v.first,v.second);
-            pq.push(p);
-        }
-        for(int i=0;i<k;++i){
-            ans.push_back(pq.top().first);
-            pq.pop();
-        }
-        return ans;
 
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            if (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == false)
+                continue;
+            if (used[i] == false)
+            {
+                used[i] = true;
+                int pp = nums[i];
+                road.push_back(pp);
+                backtrack(road, nums, used);
+                road.pop_back();
+                used[i] = false;
+            }
+        }
     }
 };
 
+int main()
+{
+    Solution solver;
+    vector<int> input{1, 1, 3};
+    // vector<int> b(5,4);
+    // for(auto i:b)
+    //     cout<<i<<endl;
 
-int main(){
-      Solution solver;
-      vector<int> ans;
-      ans = solver.topKFrequent({-1,-1},1);
-      for(auto i:ans)
-        cout<<i<<endl;
+    vector<vector<int>> ans = solver.permuteUnique(input);
+    for (auto i : ans)
+    {
+        for (auto j : i)
+        {
+            cout << j << " ";
+        }
+        cout << endl;
+    }
 }
