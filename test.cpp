@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-10 10:53:58
+ * @LastEditTime: 2021-12-12 15:28:54
  */
 #include <iostream>
 #include <string>
@@ -15,6 +15,7 @@
 #include <deque>
 #include <queue>
 #include <algorithm>
+#include<numeric>
 using namespace std;
 
 // class Solution {
@@ -419,61 +420,103 @@ using namespace std;
 //         cout<<i<<endl;
 // }
 
-class Solution
-{
-private:
-    vector<vector<int>> res;
+// class Solution
+// {
+// private:
+//     vector<vector<int>> res;
 
+// public:
+//     vector<vector<int>> permuteUnique(vector<int> &nums)
+//     {
+//         vector<int> road(0, nums.size());
+//         vector<bool> used(nums.size(),0);
+//         sort(nums.begin(), nums.end());
+//         backtrack(road, nums, used);
+//         return res;
+//     }
+//     // 回溯
+//     void backtrack(vector<int> &road, vector<int> &nums, vector<bool> &used)
+//     {
+//         if (nums.size() == road.siz())
+//         {
+//             res.push_back(road);
+//             return;
+//         }
+
+//         for (int i = 0; i < nums.size(); ++i)
+//         {
+//             if (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == false)
+//                 continue;
+//             if (used[i] == false)
+//             {
+//                 used[i] = true;
+//                 int pp = nums[i];
+//                 road.push_back(pp);
+//                 backtrack(road, nums, used);
+//                 road.pop_back();
+//                 used[i] = false;
+//             }
+//         }
+//     }
+// };
+
+// int main()
+// {
+//     Solution solver;
+//     vector<int> input{1, 1, 3};
+//     // vector<int> b(5,4);
+//     // for(auto i:b)
+//     //     cout<<i<<endl;
+
+//     vector<vector<int>> ans = solver.permuteUnique(input);
+//     for (auto i : ans)
+//     {
+//         for (auto j : i)
+//         {
+//             cout << j << " ";
+//         }
+//         cout << endl;
+//     }
+// }
+
+
+class Solution {
 public:
-    vector<vector<int>> permuteUnique(vector<int> &nums)
-    {
-        vector<int> road(0, nums.size());
-        vector<bool> used(nums.size(),0);
-        sort(nums.begin(), nums.end());
-        backtrack(road, nums, used);
-        return res;
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int sum = accumulate(nums.begin(),nums.end(),0);
+        if(sum%k)
+            return false;
+        int target = sum/k;
+        vector<bool> used(nums.size(),false);
+        // sort(nums.begin(),nums.end(),[](int a,int b){return a>b;});
+        return trackback(nums,k,target,0,0,used);
     }
-    // 回溯
-    void backtrack(vector<int> &road, vector<int> &nums, vector<bool> &used)
-    {
-        if (nums.size() == road.siz())
-        {
-            res.push_back(road);
-            return;
-        }
-
-        for (int i = 0; i < nums.size(); ++i)
-        {
-            if (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == false)
+    // 路径是bucket，选择是nums
+    bool trackback(vector<int>& nums,int k,int target,int bucket,int index,vector<bool>& used){
+        if(k==0)
+            return true;
+        if(bucket==target)// 清空bucket，从0开始继续装
+            return trackback(nums,k-1,target,0,0,used);
+        // 遍历数组，看哪个能插入桶里面
+        for(int i=index;i<nums.size();++i){
+            if(used[i])
                 continue;
-            if (used[i] == false)
-            {
-                used[i] = true;
-                int pp = nums[i];
-                road.push_back(pp);
-                backtrack(road, nums, used);
-                road.pop_back();
-                used[i] = false;
-            }
+            if(nums[i]+bucket>target)
+                continue;
+                // 进行选择
+            used[i] = true;
+            bucket += nums[i];
+            if(trackback(nums,k,target,bucket,i+1,used))// 如果这条路径通了，直接返回true
+                return true;
+            used[i] = false;//此次选择不行，撤销
+            bucket -= nums[i];
         }
+        return false;
     }
 };
 
-int main()
-{
+int main(){
     Solution solver;
-    vector<int> input{1, 1, 3};
-    // vector<int> b(5,4);
-    // for(auto i:b)
-    //     cout<<i<<endl;
-
-    vector<vector<int>> ans = solver.permuteUnique(input);
-    for (auto i : ans)
-    {
-        for (auto j : i)
-        {
-            cout << j << " ";
-        }
-        cout << endl;
-    }
+    vector<int> v{4, 3, 2, 3, 5, 2, 1};
+    cout<<solver.canPartitionKSubsets(v,4)<<endl;
 }
