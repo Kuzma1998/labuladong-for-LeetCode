@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-12 15:28:54
+ * @LastEditTime: 2021-12-14 22:34:36
  */
 #include <iostream>
 #include <string>
@@ -15,7 +15,7 @@
 #include <deque>
 #include <queue>
 #include <algorithm>
-#include<numeric>
+#include <numeric>
 using namespace std;
 
 // class Solution {
@@ -479,44 +479,125 @@ using namespace std;
 //     }
 // }
 
+// class Solution {
+// public:
+//     bool canPartitionKSubsets(vector<int>& nums, int k) {
+//         int sum = accumulate(nums.begin(),nums.end(),0);
+//         if(sum%k)
+//             return false;
+//         int target = sum/k;
+//         vector<bool> used(nums.size(),false);
+//         // sort(nums.begin(),nums.end(),[](int a,int b){return a>b;});
+//         return trackback(nums,k,target,0,0,used);
+//     }
+//     // 路径是bucket，选择是nums
+//     bool trackback(vector<int>& nums,int k,int target,int bucket,int index,vector<bool>& used){
+//         if(k==0)
+//             return true;
+//         if(bucket==target)// 清空bucket，从0开始继续装
+//             return trackback(nums,k-1,target,0,0,used);
+//         // 遍历数组，看哪个能插入桶里面
+//         for(int i=index;i<nums.size();++i){
+//             if(used[i])
+//                 continue;
+//             if(nums[i]+bucket>target)
+//                 continue;
+//                 // 进行选择
+//             used[i] = true;
+//             bucket += nums[i];
+//             if(trackback(nums,k,target,bucket,i+1,used))// 如果这条路径通了，直接返回true
+//                 return true;
+//             used[i] = false;//此次选择不行，撤销
+//             bucket -= nums[i];
+//         }
+//         return false;
+//     }
+// };
 
-class Solution {
+class Solution
+{
 public:
-    bool canPartitionKSubsets(vector<int>& nums, int k) {
-        int sum = accumulate(nums.begin(),nums.end(),0);
-        if(sum%k)
-            return false;
-        int target = sum/k;
-        vector<bool> used(nums.size(),false);
-        // sort(nums.begin(),nums.end(),[](int a,int b){return a>b;});
-        return trackback(nums,k,target,0,0,used);
-    }
-    // 路径是bucket，选择是nums
-    bool trackback(vector<int>& nums,int k,int target,int bucket,int index,vector<bool>& used){
-        if(k==0)
+    bool backtrack(vector<vector<char>> &board, int i, int j)
+    {
+        if (j == 9)
+            return backtrack(board, i + 1, 0);
+        if (i == 9)
+        {
             return true;
-        if(bucket==target)// 清空bucket，从0开始继续装
-            return trackback(nums,k-1,target,0,0,used);
-        // 遍历数组，看哪个能插入桶里面
-        for(int i=index;i<nums.size();++i){
-            if(used[i])
+        }
+        if (board[i][j] != '.')
+            return backtrack(board, i, j + 1);
+
+        for (char num = '1'; num <= '9'; ++num)
+        {
+            if (!isValid(board, i, j, num))
                 continue;
-            if(nums[i]+bucket>target)
-                continue;
-                // 进行选择
-            used[i] = true;
-            bucket += nums[i];
-            if(trackback(nums,k,target,bucket,i+1,used))// 如果这条路径通了，直接返回true
+            board[i][j] = num;
+            if (backtrack(board, i, j + 1))
                 return true;
-            used[i] = false;//此次选择不行，撤销
-            bucket -= nums[i];
+            board[i][j] = '.';
+            
         }
         return false;
     }
+    bool isValid(vector<vector<char>> &board, int i, int j, char num)
+    {
+        // for (int row = 0; row < 9; ++row)
+        // {
+        //     if (board[row][j] == num)
+        //         return false;
+        // }
+        // for (int col = 0; col < 9; ++col)
+        // {
+        //     if (board[i][col] == '.')
+        //         return false;
+        // }
+        // int sr = (i / 3) * 3;
+        // int sc = (j / 3) * 3;
+        // for (int subrow = sr; subrow < sr + 3; ++subrow)
+        // {
+        //     for (int subcol = sc; subcol < sc + 3; ++subcol)
+        //     {
+        //         if (board[subrow][subcol] == num)
+        //             return false;
+        //     }
+        // }
+        // return true;
+            for (int r = 0; r < 9; r++) {
+            // 判断行是否存在重复
+            if (board[i][r] == num) return false;
+            // 判断列是否存在重复
+            if (board[r][j] == num) return false;
+            // 判断 3 x 3 方框是否存在重复
+            if (board[(i/3)*3 + r/3][(j/3)*3 + r%3] == num)
+                return false;
+        }
+            return true;
+    }
+    void solveSudoku(vector<vector<char>> &board)
+    {
+        backtrack(board, 0, 0);
+    }
 };
 
-int main(){
+int main()
+{
     Solution solver;
-    vector<int> v{4, 3, 2, 3, 5, 2, 1};
-    cout<<solver.canPartitionKSubsets(v,4)<<endl;
+    vector<vector<char>> v{
+        {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+        {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+        {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+        {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+        {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+        {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+        {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+        {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+        {'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
+    solver.solveSudoku(v);
+    for (auto i : v)
+    {
+        for (auto j : i)
+            cout << j << " ";
+        cout << endl;
+    }
 }
