@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-14 22:34:36
+ * @LastEditTime: 2021-12-15 22:01:56
  */
 #include <iostream>
 #include <string>
@@ -514,90 +514,149 @@ using namespace std;
 //     }
 // };
 
-class Solution
-{
-public:
-    bool backtrack(vector<vector<char>> &board, int i, int j)
-    {
-        if (j == 9)
-            return backtrack(board, i + 1, 0);
-        if (i == 9)
-        {
-            return true;
-        }
-        if (board[i][j] != '.')
-            return backtrack(board, i, j + 1);
+// class Solution
+// {
+// public:
+//     bool backtrack(vector<vector<char>> &board, int i, int j)
+//     {
+//         if (j == 9)
+//             return backtrack(board, i + 1, 0);
+//         if (i == 9)
+//         {
+//             return true;
+//         }
+//         if (board[i][j] != '.')
+//             return backtrack(board, i, j + 1);
 
-        for (char num = '1'; num <= '9'; ++num)
-        {
-            if (!isValid(board, i, j, num))
-                continue;
-            board[i][j] = num;
-            if (backtrack(board, i, j + 1))
-                return true;
-            board[i][j] = '.';
+//         for (char num = '1'; num <= '9'; ++num)
+//         {
+//             if (!isValid(board, i, j, num))
+//                 continue;
+//             board[i][j] = num;
+//             if (backtrack(board, i, j + 1))
+//                 return true;
+//             board[i][j] = '.';
             
-        }
-        return false;
+//         }
+//         return false;
+//     }
+//     bool isValid(vector<vector<char>> &board, int i, int j, char num)
+//     {
+//         // for (int row = 0; row < 9; ++row)
+//         // {
+//         //     if (board[row][j] == num)
+//         //         return false;
+//         // }
+//         // for (int col = 0; col < 9; ++col)
+//         // {
+//         //     if (board[i][col] == '.')
+//         //         return false;
+//         // }
+//         // int sr = (i / 3) * 3;
+//         // int sc = (j / 3) * 3;
+//         // for (int subrow = sr; subrow < sr + 3; ++subrow)
+//         // {
+//         //     for (int subcol = sc; subcol < sc + 3; ++subcol)
+//         //     {
+//         //         if (board[subrow][subcol] == num)
+//         //             return false;
+//         //     }
+//         // }
+//         // return true;
+//             for (int r = 0; r < 9; r++) {
+//             // 判断行是否存在重复
+//             if (board[i][r] == num) return false;
+//             // 判断列是否存在重复
+//             if (board[r][j] == num) return false;
+//             // 判断 3 x 3 方框是否存在重复
+//             if (board[(i/3)*3 + r/3][(j/3)*3 + r%3] == num)
+//                 return false;
+//         }
+//             return true;
+//     }
+//     void solveSudoku(vector<vector<char>> &board)
+//     {
+//         backtrack(board, 0, 0);
+//     }
+// };
+
+// int main()
+// {
+//     Solution solver;
+//     vector<vector<char>> v{
+//         {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+//         {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+//         {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+//         {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+//         {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+//         {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+//         {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+//         {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+//         {'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
+//     solver.solveSudoku(v);
+//     for (auto i : v)
+//     {
+//         for (auto j : i)
+//             cout << j << " ";
+//         cout << endl;
+//     }
+// }
+
+class Solution {
+private:
+    vector<string> ans;
+public:
+    vector<string> generateParenthesis(int n) {
+        string path = "";
+        vector<bool> used(2*n,false);
+        string choice(n,'(');
+        choice += string(n,')');
+        backtrack(path,used,choice);
+        return ans;
     }
-    bool isValid(vector<vector<char>> &board, int i, int j, char num)
-    {
-        // for (int row = 0; row < 9; ++row)
-        // {
-        //     if (board[row][j] == num)
-        //         return false;
-        // }
-        // for (int col = 0; col < 9; ++col)
-        // {
-        //     if (board[i][col] == '.')
-        //         return false;
-        // }
-        // int sr = (i / 3) * 3;
-        // int sc = (j / 3) * 3;
-        // for (int subrow = sr; subrow < sr + 3; ++subrow)
-        // {
-        //     for (int subcol = sc; subcol < sc + 3; ++subcol)
-        //     {
-        //         if (board[subrow][subcol] == num)
-        //             return false;
-        //     }
-        // }
-        // return true;
-            for (int r = 0; r < 9; r++) {
-            // 判断行是否存在重复
-            if (board[i][r] == num) return false;
-            // 判断列是否存在重复
-            if (board[r][j] == num) return false;
-            // 判断 3 x 3 方框是否存在重复
-            if (board[(i/3)*3 + r/3][(j/3)*3 + r%3] == num)
-                return false;
+    void backtrack(string& path,vector<bool>& used,string& choice){
+        if(path.size()==used.size()){
+            ans.push_back(path);
+            return;
         }
+        for(int i=0;i<choice.size();++i){
+
+            if (i > 0 && choice[i] == choice[i - 1] && used[i - 1] == false) {
+                continue;
+            }
+            if(used[i])
+                continue;
+            if(!isValid(path,choice[i]))
+                continue;
+            path += choice[i];
+            used[i] = true;
+            backtrack(path,used,choice);
+            path.pop_back();
+            used[i] = false;
+        }
+        return;
+    }
+    bool isValid(string str,char c){
+        str += c;
+        int count1=0;
+        int count2=0;
+        for(auto i:str){
+            if(i=='(')
+                ++count1;
+            else
+                ++count2;
+        }
+        if(count1>=count2)
             return true;
-    }
-    void solveSudoku(vector<vector<char>> &board)
-    {
-        backtrack(board, 0, 0);
+        return false;
     }
 };
 
-int main()
-{
-    Solution solver;
-    vector<vector<char>> v{
-        {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
-        {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
-        {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
-        {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
-        {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
-        {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
-        {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
-        {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
-        {'.', '.', '.', '.', '8', '.', '.', '7', '9'}};
-    solver.solveSudoku(v);
-    for (auto i : v)
-    {
-        for (auto j : i)
-            cout << j << " ";
-        cout << endl;
-    }
+int main(){
+    // Solution solver;
+    // vector<string> ans = solver.generateParenthesis(3);
+    // for(auto i :ans)
+    //     cout<<i<<endl;
+    int neighbors[6][3];
+    Array<int,2> neighbors(3,6,fortranArray);
 }
