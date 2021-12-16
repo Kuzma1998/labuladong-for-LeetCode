@@ -25,7 +25,7 @@ public:
             ans.push_back(path); 
             return;
         }
-        for(int i=0;i<choice.size();++i){
+        for(int i=0;i<choice.size();++i){  // 选择列表
 
             if (i > 0 && choice[i] == choice[i - 1] && used[i - 1] == false) { //树的层级剪枝
                 continue;

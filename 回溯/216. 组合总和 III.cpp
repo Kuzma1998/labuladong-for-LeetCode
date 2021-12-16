@@ -39,3 +39,35 @@ public:
 };
 
 
+
+// 剪枝优化
+class Solution {
+private:
+    vector<vector<int>> ans;
+    vector<int> path;
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        backtrack(k,n,0,1);
+        return ans;
+    }
+
+    void backtrack(int k,int n,int sum,int start){
+        if(sum>n)
+            return; //剪枝
+        if(path.size()==k){
+            if(sum==n)
+                ans.push_back(path);
+            return;
+        }
+        for(int i=start;i<=9-(k-path.size())+1;++i){ // 剪枝，start最多为9-（k-path.size（））+1
+            if(sum+i<=n){
+                path.push_back(i);
+                sum+=i;
+                backtrack(k,n,sum,i+1);
+                path.pop_back();
+                sum-=i;
+            }
+        }
+        return;
+    }
+};

@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-15 22:01:56
+ * @LastEditTime: 2021-12-16 18:13:57
  */
 #include <iostream>
 #include <string>
@@ -602,61 +602,108 @@ using namespace std;
 //     }
 // }
 
+// class Solution {
+// private:
+//     vector<string> ans;
+// public:
+//     vector<string> generateParenthesis(int n) {
+//         string path = "";
+//         vector<bool> used(2*n,false);
+//         string choice(n,'(');
+//         choice += string(n,')');
+//         backtrack(path,used,choice);
+//         return ans;
+//     }
+//     void backtrack(string& path,vector<bool>& used,string& choice){
+//         if(path.size()==used.size()){
+//             ans.push_back(path);
+//             return;
+//         }
+//         for(int i=0;i<choice.size();++i){
+
+//             if (i > 0 && choice[i] == choice[i - 1] && used[i - 1] == false) {
+//                 continue;
+//             }
+//             if(used[i])
+//                 continue;
+//             if(!isValid(path,choice[i]))
+//                 continue;
+//             path += choice[i];
+//             used[i] = true;
+//             backtrack(path,used,choice);
+//             path.pop_back();
+//             used[i] = false;
+//         }
+//         return;
+//     }
+//     bool isValid(string str,char c){
+//         str += c;
+//         int count1=0;
+//         int count2=0;
+//         for(auto i:str){
+//             if(i=='(')
+//                 ++count1;
+//             else
+//                 ++count2;
+//         }
+//         if(count1>=count2)
+//             return true;
+//         return false;
+//     }
+// };
+
+// int main(){
+//     // Solution solver;
+//     // vector<string> ans = solver.generateParenthesis(3);
+//     // for(auto i :ans)
+//     //     cout<<i<<endl;
+//     int neighbors[6][3];
+//     Array<int,2> neighbors(3,6,fortranArray);
+// }
 class Solution {
 private:
     vector<string> ans;
+    string path="";
+    unordered_map<char,string> map;
 public:
-    vector<string> generateParenthesis(int n) {
-        string path = "";
-        vector<bool> used(2*n,false);
-        string choice(n,'(');
-        choice += string(n,')');
-        backtrack(path,used,choice);
+    vector<string> letterCombinations(string digits) {
+        // vector<bool> used(digits.szize(),false);
+        map['2'] = "abc";
+        map['3'] = "def";
+        map['4'] = "ghi";
+        map['5'] = "jkl";
+        map['6'] = "mno";
+        map['7'] = "pqrs";
+        map['8'] = "tuv";
+        map['9'] = "wxzy";
+        backtrack(digits,0);
         return ans;
     }
-    void backtrack(string& path,vector<bool>& used,string& choice){
-        if(path.size()==used.size()){
+
+    void backtrack(string& digits,int start){
+        if(start==digits.size()){
             ans.push_back(path);
             return;
         }
-        for(int i=0;i<choice.size();++i){
-
-            if (i > 0 && choice[i] == choice[i - 1] && used[i - 1] == false) {
-                continue;
-            }
-            if(used[i])
-                continue;
-            if(!isValid(path,choice[i]))
-                continue;
-            path += choice[i];
-            used[i] = true;
-            backtrack(path,used,choice);
+        if(!isValid(digits[start]))
+            backtrack(digits,start+1);
+        for(int i=0;i<map[digits[start]].size();++i){
+            path += map[digits[start]][i];
+            backtrack(digits,start+1);
             path.pop_back();
-            used[i] = false;
         }
-        return;
     }
-    bool isValid(string str,char c){
-        str += c;
-        int count1=0;
-        int count2=0;
-        for(auto i:str){
-            if(i=='(')
-                ++count1;
-            else
-                ++count2;
-        }
-        if(count1>=count2)
-            return true;
-        return false;
+    bool isValid(char c){
+        if(!map.count(c))
+            return false;   
+        return true;
     }
 };
 
+
 int main(){
-    // Solution solver;
-    // vector<string> ans = solver.generateParenthesis(3);
-    // for(auto i :ans)
-    //     cout<<i<<endl;
-    int neighbors[6][3];
-    Array<int,2> neighbors(3,6,fortranArray);
+    Solution solution;
+    vector<string> ans = solution.letterCombinations("#23");
+    for(auto i:ans) 
+        cout<<i<<endl;
 }
