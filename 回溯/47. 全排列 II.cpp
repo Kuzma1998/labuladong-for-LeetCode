@@ -26,9 +26,9 @@ private:
             return;
         }
         for (int i = 0; i < nums.size(); i++) {
-            // used[i - 1] == true，说明同一树支nums[i - 1]使用过
-            // used[i - 1] == false，说明同一树层nums[i - 1]使用过
-            // 如果同一树层nums[i - 1]使用过则直接跳过
+            // used[i - 1] == true，说明同一树支nums[i - 1]使用过,也就是树的一条路径里面使用过
+            // used[i - 1] == false，说明同一树层nums[i - 1]使用过,因为nums[i]肯定是用过回溯之后撤销了选择，so用过
+            // 如果同一树层nums[i - 1]使用过则直接跳过,剪枝
             if (i > 0 && nums[i] == nums[i - 1] && used[i - 1] == false) {
                 continue;
             }

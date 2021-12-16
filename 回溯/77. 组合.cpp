@@ -4,7 +4,9 @@
  * @Author: Li Jiaxin
  * @Date: 2021-12-12 16:04:25
  */
+// 给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的组合。
 
+// 你可以按 任何顺序 返回答案。
 // 根本无需used函数，因为我选取了当前只会再往后面选
 
 class Solution {
@@ -74,6 +76,7 @@ private:
             return;
         }
         for (int i = startIndex; i <= n - (k - path.size()) + 1; i++) { 
+            // 某一层i的最大值就是 n - (k - path.size())+1，若i大于这个的话，那么path长度就不够了
             // 优化的地方来举一个例子，n = 4，k = 4的话，那么第一层for循环的时候，
         // 从元素2开始的遍历都没有意义了。 在第二层for循环，从元素3开始的遍历都没有意义了。
             path.push_back(i); // 处理节点

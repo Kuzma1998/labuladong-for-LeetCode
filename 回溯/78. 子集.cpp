@@ -21,7 +21,7 @@ public:
     }
 
     void trackback(vector<int>& path,vector<int>& nums,int index){
-        ans.push_back(path);
+        ans.push_back(path);// 先添加在判断
         if(path.size()==nums.size()){
             return;
         }

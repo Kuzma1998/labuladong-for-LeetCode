@@ -22,7 +22,7 @@ public:
             return false;
         int target = sum/k;
         sort(nums.begin(),nums.end(),[](int a,int b){return a>b;});// 排序,大到小
-        return traceback(nums,bucket,target,0);
+        return traceback(nums,bucket,target,0); // index 传递的是nums的元素
     }
 
     bool traceback(vector<int>& nums,vector<int>& bucket,int target,int index){
@@ -66,17 +66,17 @@ public:
     bool trackback(vector<int>& nums,int k,int target,int bucket,int index,vector<bool>& used){
         if(k==0)
             return true;
-        if(bucket==target)// 从0开始继续装
+        if(bucket==target)// 从0开始继续装 ，重置bucket，相当于k传递的是bucket，装满一个搞下一个
             return trackback(nums,k-1,target,0,0,used);
         // 遍历数组，看哪个能插入桶里面
-        for(int i=index;i<nums.size();++i){
+        for(int i=index;i<nums.size();++i){   // 选择列表是数组
             if(used[i])
                 continue;
             if(nums[i]+bucket>target)
                 continue;
                 // 进行选择
             used[i] = true;
-            bucket += nums[i];
+            bucket += nums[i];  //做选择，加入bucket
             if(trackback(nums,k,target,bucket,i+1,used))// 如果这条路径通了，直接返回true
                 return true;
             used[i] = false;//此次选择不行，撤销

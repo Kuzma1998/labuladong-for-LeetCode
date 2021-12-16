@@ -9,6 +9,7 @@
 // 输入: k = 3, n = 9
 // 输出: [[1,2,6], [1,3,5], [2,3,4]]
 
+
 class Solution {
 private:
     vector<vector<int>> ans;
@@ -71,3 +72,4 @@ public:
         return;
     }
 };
+
