@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-16 18:13:57
+ * @LastEditTime: 2021-12-22 22:26:30
  */
 #include <iostream>
 #include <string>
@@ -660,50 +660,101 @@ using namespace std;
 //     int neighbors[6][3];
 //     Array<int,2> neighbors(3,6,fortranArray);
 // }
-class Solution {
-private:
-    vector<string> ans;
-    string path="";
-    unordered_map<char,string> map;
-public:
-    vector<string> letterCombinations(string digits) {
-        // vector<bool> used(digits.szize(),false);
-        map['2'] = "abc";
-        map['3'] = "def";
-        map['4'] = "ghi";
-        map['5'] = "jkl";
-        map['6'] = "mno";
-        map['7'] = "pqrs";
-        map['8'] = "tuv";
-        map['9'] = "wxzy";
-        backtrack(digits,0);
-        return ans;
-    }
+// class Solution {
+// private:
+//     vector<string> ans;
+//     string path="";
+//     unordered_map<char,string> map;
+// public:
+//     vector<string> letterCombinations(string digits) {
+//         // vector<bool> used(digits.szize(),false);
+//         map['2'] = "abc";
+//         map['3'] = "def";
+//         map['4'] = "ghi";
+//         map['5'] = "jkl";
+//         map['6'] = "mno";
+//         map['7'] = "pqrs";
+//         map['8'] = "tuv";
+//         map['9'] = "wxzy";
+//         backtrack(digits,0);
+//         return ans;
+//     }
 
-    void backtrack(string& digits,int start){
-        if(start==digits.size()){
-            ans.push_back(path);
-            return;
-        }
-        if(!isValid(digits[start]))
-            backtrack(digits,start+1);
-        for(int i=0;i<map[digits[start]].size();++i){
-            path += map[digits[start]][i];
-            backtrack(digits,start+1);
-            path.pop_back();
-        }
-    }
-    bool isValid(char c){
-        if(!map.count(c))
-            return false;   
-        return true;
-    }
-};
+//     void backtrack(string& digits,int start){
+//         if(start==digits.size()){
+//             ans.push_back(path);
+//             return;
+//         }
+//         if(!isValid(digits[start]))
+//             backtrack(digits,start+1);
+//         for(int i=0;i<map[digits[start]].size();++i){
+//             path += map[digits[start]][i];
+//             backtrack(digits,start+1);
+//             path.pop_back();
+//         }
+//     }
+//     bool isValid(char c){
+//         if(!map.count(c))
+//             return false;   
+//         return true;
+//     }
+// };
 
 
-int main(){
-    Solution solution;
-    vector<string> ans = solution.letterCombinations("#23");
-    for(auto i:ans) 
-        cout<<i<<endl;
-}
+// int main(){
+//     Solution solution;
+//     vector<string> ans = solution.letterCombinations("#23");
+//     for(auto i:ans) 
+//         cout<<i<<endl;
+// }
+
+
+
+
+
+// class Solution {
+// private:
+//     vector<vector<string>> ans;
+//     vector<string> path;
+// public:
+//     vector<vector<string>> partition(string s) {
+//         backtrack(s,0);
+//         return ans;
+//     }
+
+//     void backtrack(string s,int index){
+//         if(index>=s.size()){
+//             ans.push_back(path);
+//             return;
+//         }
+//         for(int i=index;i<s.size();++i){
+//             if(isHuiwen(s,index,i)){
+//                 path.push_back(s.substr(index,i-index+1));
+//             }
+//             else{
+//                 continue;
+//             }
+//             backtrack(s,i+1);
+//             path.pop_back();
+//         }
+//     }
+//     bool isHuiwen(string s,int start,int end){
+//         for(;start<=end;++start,--end){
+//             if(s[start]!=s[end])
+//                 return false;
+//         }
+//         return true;
+//     }
+// };
+
+// int main(){
+//     Solution solver;
+//     string s = "aab";
+//     vector<vector<string>> ans = solver.partition(s);
+//     for(auto i :ans){
+//         for(auto j:i){
+//             cout<<j<<endl;
+//         }
+//     }
+
+// }
