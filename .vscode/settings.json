@@ -8,6 +8,12 @@
         "ostream": "cpp",
         "vector": "cpp",
         "deque": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "initializer_list": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "type_traits": "cpp",
+        "xhash": "cpp",
+        "xutility": "cpp"
     }
 }

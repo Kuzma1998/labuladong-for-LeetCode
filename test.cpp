@@ -1,10 +1,10 @@
 /*
- * @Descripttion: 
- * @version: 
+ * @Descripttion:
+ * @version:
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-22 22:26:30
+ * @LastEditTime: 2021-12-24 17:20:18
  */
 #include <iostream>
 #include <string>
@@ -536,7 +536,7 @@ using namespace std;
 //             if (backtrack(board, i, j + 1))
 //                 return true;
 //             board[i][j] = '.';
-            
+
 //         }
 //         return false;
 //     }
@@ -695,22 +695,17 @@ using namespace std;
 //     }
 //     bool isValid(char c){
 //         if(!map.count(c))
-//             return false;   
+//             return false;
 //         return true;
 //     }
 // };
 
-
 // int main(){
 //     Solution solution;
 //     vector<string> ans = solution.letterCombinations("#23");
-//     for(auto i:ans) 
+//     for(auto i:ans)
 //         cout<<i<<endl;
 // }
-
-
-
-
 
 // class Solution {
 // private:
@@ -758,3 +753,149 @@ using namespace std;
 //     }
 
 // }
+
+// class Solution
+// {
+// private:
+//     vector<string> ans;
+//     //  string path;
+// public:
+//     vector<string> restoreIpAddresses(string s)
+//     {
+//         // int size =s.size();
+//         backtrack(s, 1, 0);
+//         return ans;
+//     }
+
+//     void backtrack(string &s, int index, int num)
+//     {
+//         if (num == 3)
+//         {
+//             if (isValid(s, index - 1))
+//                 ans.push_back(s);
+//             return;
+//         }
+//         for (auto i = index; i < s.size() && i < index + 3; ++i)
+//         {
+//             if (can_insert(s, i))
+//             {
+//                 s.insert(i, ".");
+//             }
+//             else
+//             {
+//                 continue;
+//             }
+//             num++;
+//             backtrack(s, i + 2, num);
+//             s.erase(i, 1);
+//             --num;
+//         }
+//     }
+//     bool can_insert(string &s, int start)
+//     {
+//         int i = 3;
+//         int j = start - 1;
+//         while (j >= 0 && i)
+//         {
+//             if (s[j] == '.')
+//             {
+//                 break;
+//             }
+//             --i;
+//             --j;
+//         }
+//         if (j < 0 && s.substr(0, (3 - i)) <= string("255"))
+//             return true;
+//         else if (j < 0 && s.substr(0, (3 - i)) >= string("255"))
+//             return false;
+//         if (s[j] != '.')
+//             return false;
+//         else if (s.substr(j + 1, (3 - i)).size()<3)
+//             return true;
+//         else if(s.substr(j + 1, (3 - i))[0]!='0'&&s.substr(j + 1, (3 - i))<=string("255"))
+//             return true;
+//         else
+//             return false;
+//     }
+//     bool isValid(string &s, int pos)
+//     {
+//         if (s.substr(pos).size() > 3)
+//             return false;
+//         else if(s.substr(pos).size()==1)
+//             return true;
+//         else if (s.substr(pos)[0]=='0')
+//             return false;
+//         else if(s.substr(pos).size()<3)
+//             return true;
+//         else if (s.substr(pos)<= string("255"))
+//             return true;
+//         else
+//             return false; 
+  
+//     }
+// };
+
+// bool isValid(string &s, int pos)
+// {
+//     if (s.substr(pos).size() > 3)
+//         return false;
+//     else if (s.substr(pos) > string("255"))
+//         return false;
+//     return true;
+// }
+
+// int main()
+// {
+//     Solution solver;
+//     string s = "25525511135";
+//     // cout << s.size() << endl;
+//     // cout << isValid(s, 10);
+
+//     // cout<<s.substr(2);
+//     vector<string> ans = solver.restoreIpAddresses(s);
+//     for(auto i:ans){
+//         cout<<i<<endl;
+//     }
+// }
+
+
+class Solution {
+private:
+    vector<vector<int>> ans;
+    vector<int> path;
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<bool> used(nums.size(),false);
+        backtrack(nums,0,used);
+        return ans;
+    }
+    void backtrack(vector<int>& nums,int index,vector<bool>& used){
+        ans.push_back(path);
+        if(index==nums.size())
+            return;
+        for(int i=index;i<nums.size();++i){
+            if(i>0&&nums[i]==nums[i-1]&&used[i-1]==false)
+                continue;
+            if(used[i])
+                continue;
+            path.push_back(nums[i]);
+            used[i] = true;
+            backtrack(nums,i+1,used);
+            used[i] = false;
+            path.pop_back();
+        }
+    }
+};
+
+int main(){
+    Solution slover;
+    vector<int> nums{1,2,2};
+    vector<vector<int>> ans = slover.subsetsWithDup(nums);
+    for(auto i:ans){
+        for(auto j:i){
+            cout<< j<<" "; //
+        }
+        cout<< endl;
+    }
+}
