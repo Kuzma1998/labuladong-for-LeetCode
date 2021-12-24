@@ -14,6 +14,8 @@
         "stack": "cpp",
         "type_traits": "cpp",
         "xhash": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "unordered_map": "cpp",
+        "set": "cpp"
     }
 }
