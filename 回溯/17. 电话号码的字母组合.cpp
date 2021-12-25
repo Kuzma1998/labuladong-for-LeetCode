@@ -52,11 +52,3 @@ public:
         return true;
     }
 };
-
-
-int main(){
-    Solution solution;
-    vector<string> ans = solution.letterCombinations("#23");
-    for(auto i:ans) 
-        cout<<i<<endl;
-}

@@ -26,7 +26,7 @@ private:
                 backtracking(s, i + 2, pointNum);   // 插入逗点之后下一个子串的起始位置为i+2
                 pointNum--;                         // 回溯
                 s.erase(s.begin() + i + 1);         // 回溯删掉逗点
-            } else continue; // 不合法，直接结束本层循环
+            } else break; // 不合法，直接结束本层循环
         }
     }
     // 判断字符串s在左闭又闭区间[start, end]所组成的数字是否合法

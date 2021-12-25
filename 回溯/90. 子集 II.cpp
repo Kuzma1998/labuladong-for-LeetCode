@@ -25,8 +25,8 @@ public:
         if(index==nums.size())
             return;
         for(int i=index;i<nums.size();++i){
-            // if(i>0&&nums[i]==nums[i-1]&&used[i-1]==false)  // 树的层剪枝，而树的深度可以重复
-            //     continue;
+            if(i>0&&nums[i]==nums[i-1]&&used[i-1]==false)  // 树的层剪枝，同一层不能重复选取，而树的深度可以重复
+                continue;
             if(used[i])
                 continue;
             path.push_back(nums[i]);

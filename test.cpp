@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-24 20:46:33
+ * @LastEditTime: 2021-12-25 09:37:50
  */
 #include <iostream>
 #include <string>
@@ -901,53 +901,96 @@ using namespace std;
 // }
 
 #include<set>
+// class Solution {
+// private:
+//     vector<vector<int>> ans;
+//     vector<int> path;
+//     set<int> s;
+// public:
+//     vector<vector<int>> findSubsequences(vector<int>& nums) {
+//         vector<bool> used(nums.size(),false);
+//         backtrack(nums,0,used);
+//         return ans;
+//     }
+//     void backtrack(vector<int>& nums,int index, vector<bool>& used){
+//         if(path.size()>=2){
+//             ans.push_back(path);
+//         }
+//         if(index==nums.size())
+//             return;
+//         for(int i=index;i<nums.size();++i){
+//             if(path.size()==0&&s.find(nums[i])==s.end()){
+//                 used[i] = true;
+//                 s.insert(nums[i]);
+//                 path.push_back(nums[i]);
+//                 backtrack(nums,i+1,used);
+//                 path.pop_back();
+//                 used[i] = false;
+//             }
+//             if(i>0&& nums[i] == nums[i-1] && used[i - 1] == false)
+//                 continue;
+//             if(path.size()!=0&&path[path.size()-1]<=nums[i]){
+//                 used[i] = true;
+//                 path.push_back(nums[i]);
+//                 backtrack(nums,i+1,used);
+//                 path.pop_back();
+//                 used[i] = false;
+//             }else{continue;}
+//         }
+//     }
+// };
+
+// int main(){
+//     Solution solver;
+//     vector<int> nums{-100,-100,0,0,0,100,100,0,0};
+//     vector<vector<int>> ans = solver.findSubsequences(nums);
+//     for(auto i:ans){
+//     for(auto j:i){
+//         cout<< j<<" "; //
+//     }
+//     cout<< endl;
+// }
+// }
+
+
 class Solution {
 private:
     vector<vector<int>> ans;
     vector<int> path;
-    set<int> s;
 public:
-    vector<vector<int>> findSubsequences(vector<int>& nums) {
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
         vector<bool> used(nums.size(),false);
         backtrack(nums,0,used);
         return ans;
     }
-    void backtrack(vector<int>& nums,int index, vector<bool>& used){
-        if(path.size()>=2){
-            ans.push_back(path);
-        }
+    void backtrack(vector<int>& nums,int index,vector<bool>& used){
+        ans.push_back(path);
         if(index==nums.size())
             return;
         for(int i=index;i<nums.size();++i){
-            if(path.size()==0&&s.find(nums[i])==s.end()){
-                used[i] = true;
-                s.insert(nums[i]);
-                path.push_back(nums[i]);
-                backtrack(nums,i+1,used);
-                path.pop_back();
-                used[i] = false;
-            }
-            if(i>0&& nums[i] == nums[i-1] && used[i - 1] == false)
+            if(i>0&&nums[i]==nums[i-1]&&used[i-1]==false)  // 树的层剪枝，而树的深度可以重复
                 continue;
-            if(path.size()!=0&&path[path.size()-1]<=nums[i]){
-                used[i] = true;
-                path.push_back(nums[i]);
-                backtrack(nums,i+1,used);
-                path.pop_back();
-                used[i] = false;
-            }else{continue;}
+            if(used[i])
+                continue;
+            path.push_back(nums[i]);
+            used[i] = true;
+            backtrack(nums,i+1,used);
+            used[i] = false;
+            path.pop_back();
         }
     }
 };
 
+
 int main(){
-    Solution solver;
-    vector<int> nums{-100,-100,0,0,0,100,100,0,0};
-    vector<vector<int>> ans = solver.findSubsequences(nums);
+    Solution solver; 
+    vector<int> nums{1,2,2}; //
+    vector<vector<int>> ans = solver.subsetsWithDup(nums);
     for(auto i:ans){
-    for(auto j:i){
-        cout<< j<<" "; //
+        for(auto j:i){
+            cout<<j<<" ";
+        }
+        cout<<endl;
     }
-    cout<< endl;
-}
 }
