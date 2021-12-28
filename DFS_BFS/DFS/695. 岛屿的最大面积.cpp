@@ -22,7 +22,7 @@ public:
             int j=0;
             for(;j<n;++j){
                 if(grid[i][j]==1){
-                    int sub_ans = DFS(grid,i,j,0);
+                    int sub_ans = DFS(grid,i,j);// 递归
                     ans = max(sub_ans,ans);
                 }
             }
@@ -30,8 +30,11 @@ public:
         return ans;
     }
 
-    // 让DFS返回值即可
-    int DFS(vector<vector<int>>& grid,int i,int j,int sub_ans){
+    // 让DFS返回值即可,
+    // 递归三要素，函数要干啥 返回i，j为坐标在grid里面能连接1的个数
+    // 递归结束条件
+    // 怎么递归
+    int DFS(vector<vector<int>>& grid,int i,int j){
         if(i<0||j<0||i==grid.size()||j==grid[0].size()){
             return 0;
         }
@@ -40,14 +43,7 @@ public:
 
         if(grid[i][j]==1){
             grid[i][j]=0;
-            ++sub_ans;
         }
-
-        sub_ans+=DFS(grid,i+1,j,0);
-        sub_ans+=DFS(grid,i-1,j,0);
-        sub_ans+=DFS(grid,i,j-1,0);
-        sub_ans+=DFS(grid,i,j+1,0);
-
-        return sub_ans;
+        return 1+ DFS(grid,i+1,j)+DFS(grid,i-1,j)+DFS(grid,i,j-1)+DFS(grid,i,j+1);
     }
 };
