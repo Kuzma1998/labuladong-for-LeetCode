@@ -11,6 +11,7 @@
 #include<utility>
 #include<set>
 #include<queue>
+#include<sstream>
 using namespace std;
 
 
@@ -159,50 +160,185 @@ using namespace std;
 
 // }
 
+// class Solution {
+// private:
+//     int ans = 0;
+// public:
+//     int maxAreaOfIsland(vector<vector<int>>& grid) {
+//         // int ans =0 ;
+//         int m = grid.size(),n=grid[0].size();
+//         for(int i=0;i<m;++i){
+//             int j=0;
+//             for(;j<n;++j){
+//                 if(grid[i][j]==1){
+//                     int sub_ans = DFS(grid,i,j,0);
+//                     ans = max(sub_ans,ans);
+//                 }
+//             }
+//         }
+//         return ans;
+//     }
+
+//     int DFS(vector<vector<int>>& grid,int i,int j,int sub_ans){
+//         if(i<0||j<0||i==grid.size()||j==grid[0].size()){
+//             return 0;
+//         }
+//         if(grid[i][j]==0)
+//             return 0;
+
+//         if(grid[i][j]==1){
+//             grid[i][j]=0;
+//             ++sub_ans;
+//         }
+
+//         sub_ans+=DFS(grid,i+1,j,0);
+//         sub_ans+=DFS(grid,i-1,j,0);
+//         sub_ans+=DFS(grid,i,j-1,0);
+//         sub_ans+=DFS(grid,i,j+1,0);
+
+//         return sub_ans;
+//     }
+// };
+
+
+// int main(){
+//     Solution solver; 
+//     vector<vector<int>> grid ={{1,1,0,0,0},{1,1,0,0,0},{0,0,0,1,1},{0,0,0,1,1}};
+//     cout<<solver.maxAreaOfIsland(grid)<<endl;
+
+// }
+
+
+// class Solution {
+// private:
+//     vector<set<pair<int,int>>> v1;
+//     vector<set<pair<int,int>>> v2;
+//     int ans = 0;
+// public:
+//     int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) {
+//         int m =grid1.size(),n = grid2[0].size();
+//         for(int i=0;i<m;++i){
+//             int j=0;
+//             for(;j<n;++j){
+//                 if(grid1[i][j]==1){
+//                     set<pair<int,int>> s1;
+//                     DFS1(grid1,i,j,s1);
+//                     if(!s1.empty()){
+//                         v1.push_back(s1);
+//                     }
+//                 }
+//             }
+//         }
+//         for(int i=0;i<m;++i){
+//             int j=0;
+//             for(;j<n;++j){
+//                 if(grid2[i][j]==1){
+//                     set<pair<int,int>> s2;
+//                     DFS2(grid2,i,j,s2);
+//                     if(!s2.empty())
+//                         v2.push_back(s2);
+//                 }
+//             }
+//         }
+
+//         for(auto vec1:v1){
+//             for(auto vec2:v2){
+//                 if(check(vec1,vec2)){
+//                     ++ans;
+//                 }
+
+//             }
+//         }
+//         return ans;
+//     }
+//     void DFS1(vector<vector<int>>& grid1, int i ,int j,set<pair<int,int>>& s1){
+//         if(i<0||j<0||i==grid1.size()||j==grid1[0].size())
+//             return;
+//         if(grid1[i][j]==0)
+//             return;
+//         grid1[i][j] =0;
+//         s1.insert({i,j});
+//         DFS1(grid1,i-1,j,s1);
+//         DFS1(grid1,i+1,j,s1);
+//         DFS1(grid1,i,j+1,s1);
+//         DFS1(grid1,i,j-1,s1);
+//     }
+//     void DFS2(vector<vector<int>>& grid2, int i ,int j, set<pair<int,int>>& s2){
+//         if(i<0||j<0||i==grid2.size()||j==grid2[0].size())
+//             return;
+//         if(grid2[i][j]==0)
+//             return;
+//         grid2[i][j] =0;
+//         s2.insert({i,j});
+//         DFS2(grid2,i-1,j,s2);
+//         DFS2(grid2,i+1,j,s2);
+//         DFS2(grid2,i,j+1,s2);
+//         DFS2(grid2,i,j-1,s2);
+//     }
+//     bool check(set<pair<int,int>> s1,set<pair<int,int>> s2) {
+//         if(s1.size()<s2.size()) return false;
+//         for(auto i:s2){
+//             if(!s1.count(i))
+//                 return false;
+//         }
+//         return true;
+//     }
+// };
+
+
+// int main(){
+//     // vector<vector<int>> grid1 = {{1,1,1,1,0,0},{1,1,0,1,0,0},{1,0,0,1,1,1},{1,1,1,0,0,1},{1,1,1,1,1,0},{1,0,1,0,1,0},{0,1,1,1,0,1},{1,0,0,0,1,1},{1,0,0,0,1,0},{1,1,1,1,1,0}};
+//     // vector<vector<int>> grid2 = {{1,1,1,1,0,1},{0,0,1,0,1,0},{1,1,1,1,1,1},{0,1,1,1,1,1},{1,1,1,0,1,0},{0,1,1,1,1,1},{1,1,0,1,1,1},{1,0,0,1,0,1},{1,1,1,1,1,1},{1,0,0,1,0,0}};
+//     vector<vector<int>> grid1 = {{1,1,1,0,0},{0,1,1,1,1},{0,0,0,0,0},{1,0,0,0,0},{1,1,0,1,1}};
+//     vector<vector<int>> grid2 = {{1,1,1,0,0},{0,0,1,1,1},{0,1,0,0,0},{1,0,1,1,0},{0,1,0,1,0}};
+//     Solution solver; 
+//     cout<<solver.countSubIslands(grid1,grid2);
+// }
+
+
 class Solution {
-private:
-    int ans = 0;
 public:
-    int maxAreaOfIsland(vector<vector<int>>& grid) {
-        // int ans =0 ;
-        int m = grid.size(),n=grid[0].size();
+    int numDistinctIslands(vector<vector<int>>& grid) {
+        int m = grid.size(),n = grid[0].size();
+        set<string> se;
         for(int i=0;i<m;++i){
-            int j=0;
+            int j =0;
             for(;j<n;++j){
                 if(grid[i][j]==1){
-                    int sub_ans = DFS(grid,i,j,0);
-                    ans = max(sub_ans,ans);
+                string s = "";
+                DFS(grid, i,j,111,s);
+                se.insert(s);
                 }
             }
         }
-        return ans;
+        return se.size();
     }
-
-    int DFS(vector<vector<int>>& grid,int i,int j,int sub_ans){
+    void DFS(vector<vector<int>>& grid,int i,int j,int num,string& s){
         if(i<0||j<0||i==grid.size()||j==grid[0].size()){
-            return 0;
+            return;
         }
         if(grid[i][j]==0)
-            return 0;
-
-        if(grid[i][j]==1){
-            grid[i][j]=0;
-            ++sub_ans;
-        }
-
-        sub_ans+=DFS(grid,i+1,j,0);
-        sub_ans+=DFS(grid,i-1,j,0);
-        sub_ans+=DFS(grid,i,j-1,0);
-        sub_ans+=DFS(grid,i,j+1,0);
-
-        return sub_ans;
+            return;
+        s = s+num2str(num);
+        s += "-";
+        grid[i][j] = 0;
+        DFS(grid,i+1,j,1,s);    
+        DFS(grid,i-1,j,2,s);
+        DFS(grid,i,j-1,3,s);
+        DFS(grid,i,j+1,4,s);
+        s = s+num2str(-num);
+        s+= "-";
+        
+    }
+    string num2str(int num){
+        stringstream ss;
+        ss<<num;
+        return ss.str();
     }
 };
 
-
 int main(){
-    Solution solver; 
-    vector<vector<int>> grid ={{1,1,0,0,0},{1,1,0,0,0},{0,0,0,1,1},{0,0,0,1,1}};
-    cout<<solver.maxAreaOfIsland(grid)<<endl;
-
+    vector<vector<int>> grid = {{1,1,0},{0,1,1},{0,0,0},{1,1,1},{0,1,0}};
+    Solution solver;
+    cout<<solver.numDistinctIslands(grid);
 }
