@@ -1,8 +1,8 @@
 {
     "files.associations": {
         "*.m": "matlab",
-        "set": "cpp",
         "vector": "cpp",
-        "iosfwd": "cpp"
+        "xtree": "cpp",
+        "ostream": "cpp"
     }
 }

@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-25 09:37:50
+ * @LastEditTime: 2021-12-25 11:29:27
  */
 #include <iostream>
 #include <string>
@@ -953,30 +953,71 @@ using namespace std;
 // }
 
 
+// class Solution {
+// private:
+//     vector<vector<int>> ans;
+//     vector<int> path;
+// public:
+//     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+//         sort(nums.begin(),nums.end());
+//         vector<bool> used(nums.size(),false);
+//         backtrack(nums,0,used);
+//         return ans;
+//     }
+//     void backtrack(vector<int>& nums,int index,vector<bool>& used){
+//         ans.push_back(path);
+//         if(index==nums.size())
+//             return;
+//         for(int i=index;i<nums.size();++i){
+//             if(i>0&&nums[i]==nums[i-1]&&used[i-1]==false)  // 树的层剪枝，而树的深度可以重复
+//                 continue;
+//             if(used[i])
+//                 continue;
+//             path.push_back(nums[i]);
+//             used[i] = true;
+//             backtrack(nums,i+1,used);
+//             used[i] = false;
+//             path.pop_back();
+//         }
+//     }
+// };
+
+
+// int main(){
+//     Solution solver; 
+//     vector<int> nums{1,2,2}; //
+//     vector<vector<int>> ans = solver.subsetsWithDup(nums);
+//     for(auto i:ans){
+//         for(auto j:i){
+//             cout<<j<<" ";
+//         }
+//         cout<<endl;
+//     }
+// }
+
+
 class Solution {
 private:
     vector<vector<int>> ans;
     vector<int> path;
 public:
-    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        sort(nums.begin(),nums.end());
-        vector<bool> used(nums.size(),false);
-        backtrack(nums,0,used);
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        backtrack(nums,0);
         return ans;
     }
-    void backtrack(vector<int>& nums,int index,vector<bool>& used){
-        ans.push_back(path);
-        if(index==nums.size())
-            return;
+    void backtrack(vector<int>& nums,int index){
+        if(path.size()>=2){
+            ans.push_back(path);
+        }
+        if(index==nums.size()){return;}
+        set<int> s;
         for(int i=index;i<nums.size();++i){
-            if(i>0&&nums[i]==nums[i-1]&&used[i-1]==false)  // 树的层剪枝，而树的深度可以重复
+            //跳过的条件,不递增或者该层去重
+            if(!path.empty()&&path.back()>nums[i]||s.find(nums[i])!=s.end())
                 continue;
-            if(used[i])
-                continue;
+            s.insert(nums[i]);
             path.push_back(nums[i]);
-            used[i] = true;
-            backtrack(nums,i+1,used);
-            used[i] = false;
+            backtrack(nums,i+1);
             path.pop_back();
         }
     }
@@ -984,13 +1025,12 @@ public:
 
 
 int main(){
-    Solution solver; 
-    vector<int> nums{1,2,2}; //
-    vector<vector<int>> ans = solver.subsetsWithDup(nums);
+    Solution solver;
+    vector<int> nums{4,6,7,7};
+   vector<vector<int>> ans = solver.findSubsequences(nums);
     for(auto i:ans){
-        for(auto j:i){
+        for(auto j:i)
             cout<<j<<" ";
-        }
         cout<<endl;
     }
 }

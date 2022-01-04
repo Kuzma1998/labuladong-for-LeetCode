@@ -44,8 +44,8 @@ public:
         s+= "-";
         
     }
-    string num2str(int num){
-        stringstream ss;
+    string num2str(int num){ //数字转字符串
+        stringstream ss; //C++风格的字符串的输入输出的。可以读取写入字符串
         ss<<num;
         return ss.str();
     }
