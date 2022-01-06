@@ -996,41 +996,67 @@ using namespace std;
 // }
 
 
+// class Solution {
+// private:
+//     vector<vector<int>> ans;
+//     vector<int> path;
+// public:
+//     vector<vector<int>> findSubsequences(vector<int>& nums) {
+//         backtrack(nums,0);
+//         return ans;
+//     }
+//     void backtrack(vector<int>& nums,int index){
+//         if(path.size()>=2){
+//             ans.push_back(path);
+//         }
+//         if(index==nums.size()){return;}
+//         set<int> s;
+//         for(int i=index;i<nums.size();++i){
+//             //跳过的条件,不递增或者该层去重
+//             if(!path.empty()&&path.back()>nums[i]||s.find(nums[i])!=s.end())
+//                 continue;
+//             s.insert(nums[i]);
+//             path.push_back(nums[i]);
+//             backtrack(nums,i+1);
+//             path.pop_back();
+//         }
+//     }
+// };
+
+
+// int main(){
+//     Solution solver;
+//     vector<int> nums{4,6,7,7};
+//    vector<vector<int>> ans = solver.findSubsequences(nums);
+//     for(auto i:ans){
+//         for(auto j:i)
+//             cout<<j<<" ";
+//         cout<<endl;
+//     }
+// }
+
+
 class Solution {
-private:
-    vector<vector<int>> ans;
-    vector<int> path;
 public:
-    vector<vector<int>> findSubsequences(vector<int>& nums) {
-        backtrack(nums,0);
-        return ans;
-    }
-    void backtrack(vector<int>& nums,int index){
-        if(path.size()>=2){
-            ans.push_back(path);
+    int jump(vector<int>& nums) {
+        int s =0;
+        int e =1;
+        int steps = 0;
+        while(e<nums.size()){
+            int pos = 0;
+            for(int i=0;i<e;++i){
+                pos = max(pos,nums[i]+i);
+            }
+            s = e;
+            e = pos+1;
+            steps++;
         }
-        if(index==nums.size()){return;}
-        set<int> s;
-        for(int i=index;i<nums.size();++i){
-            //跳过的条件,不递增或者该层去重
-            if(!path.empty()&&path.back()>nums[i]||s.find(nums[i])!=s.end())
-                continue;
-            s.insert(nums[i]);
-            path.push_back(nums[i]);
-            backtrack(nums,i+1);
-            path.pop_back();
-        }
+        return steps;
     }
 };
 
-
 int main(){
     Solution solver;
-    vector<int> nums{4,6,7,7};
-   vector<vector<int>> ans = solver.findSubsequences(nums);
-    for(auto i:ans){
-        for(auto j:i)
-            cout<<j<<" ";
-        cout<<endl;
-    }
+    vector<int> nums{7,0,9,6,9,6,1,7,9,0,1,2,9,0,3};
+    cout<<solver.jump(nums);
 }
