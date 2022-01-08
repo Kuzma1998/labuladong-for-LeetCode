@@ -3,8 +3,8 @@
  * @version:
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-12-25 11:29:27
+ * @LastEditors: Li Jiaxin
+ * @LastEditTime: 2022-01-08 10:49:09
  */
 #include <iostream>
 #include <string>
@@ -1035,28 +1035,60 @@ using namespace std;
 //     }
 // }
 
+// class Solution {
+// public:
+//     int jump(vector<int>& nums) {
+//         int s =0;
+//         int e =1;
+//         int steps = 0;
+//         while(e<nums.size()){
+//             int pos = 0;
+//             for(int i=0;i<e;++i){
+//                 pos = max(pos,nums[i]+i);
+//             }
+//             s = e;
+//             e = pos+1;
+//             steps++;
+//         }
+//         return steps;
+//     }
+// };
 
-class Solution {
-public:
-    int jump(vector<int>& nums) {
-        int s =0;
-        int e =1;
-        int steps = 0;
-        while(e<nums.size()){
-            int pos = 0;
-            for(int i=0;i<e;++i){
-                pos = max(pos,nums[i]+i);
-            }
-            s = e;
-            e = pos+1;
-            steps++;
-        }
-        return steps;
-    }
-};
+// int main(){
+//     Solution solver;
+//     vector<int> nums{7,0,9,6,9,6,1,7,9,0,1,2,9,0,3};
+//     cout<<solver.jump(nums);
+// }
+
+// class Solution {
+// public:
+//     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+//         int count =-1;
+//         for(int i=0;i<gas.size();++i){
+//             if(gas[i]<cost[i])
+//                 continue;
+//             int sum = 0;
+//             int times = gas.size();
+//             count = i;
+//             int j = i;
+//             while(times--){
+//                 if(j==gas.size())
+//                     j=0;
+//                 sum += gas[j]-cost[j];
+//                 if(sum<0)
+//                     break;
+//                 if(j<gas.size())
+//                     j++;
+//             }
+//             if(sum>=0)
+//                 return count;
+//         }
+//         return -1;
+//     }
+// };
 
 int main(){
-    Solution solver;
-    vector<int> nums{7,0,9,6,9,6,1,7,9,0,1,2,9,0,3};
-    cout<<solver.jump(nums);
+    int i= 0;
+    
+    
 }

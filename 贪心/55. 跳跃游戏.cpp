@@ -6,4 +6,16 @@
 // 输出：true
 // 解释：可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。
 
-
+// 贪心
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int max_range=0;
+        for(int i=0;i<=max_range;++i){
+            max_range = max(max_range,i+nums[i]);
+            if(max_range>=nums.size()-1)
+                return true;
+        }
+        return false;
+    }
+};
