@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Li Jiaxin
- * @LastEditTime: 2022-01-08 10:49:09
+ * @LastEditTime: 2022-01-10 12:42:41
  */
 #include <iostream>
 #include <string>
@@ -1087,8 +1087,28 @@ using namespace std;
 //     }
 // };
 
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        vector<int> dp(ratings.size(),1);
+        int i=0;
+        for(i=1;i<ratings.size();++i){
+            //右大于左，必然右边比左边大1;
+            if(ratings[i]>ratings[i-1])
+                dp[i] = dp[i-1]+1;
+        }
+        for(int j=ratings.size()-2;j>=0;--j){
+            if(ratings[j]>ratings[j+1]){
+                dp[j] = max(dp[j],dp[j+1]+1);
+            }
+        }
+        return accumulate(dp.begin(),dp.end(),0);
+    }
+};
+
+
 int main(){
-    int i= 0;
-    
-    
+    vector<int> ratings = {1,0,2};
+    Solution solver;
+    cout<<solver.candy(ratings);
 }
