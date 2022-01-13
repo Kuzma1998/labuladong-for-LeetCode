@@ -13,11 +13,11 @@ class Solution {
 public:
     int jump(vector<int>& nums) {
         vector<int> dp(nums.size(),0);
-        int j =0;
+        int j =0;//初始起跳坐标
         for(int i=1;i<nums.size();++i){
             while(nums[j]+j<i)
                 ++j;
-            dp[i] = dp[j]+1;
+            dp[i] = dp[j]+1;//i可以由j一步跳到
         }
         return dp[nums.size()-1];
     }
