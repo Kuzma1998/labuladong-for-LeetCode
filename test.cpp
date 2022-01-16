@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Li Jiaxin
- * @LastEditTime: 2022-01-10 12:42:41
+ * @LastEditTime: 2022-01-16 12:35:19
  */
 #include <iostream>
 #include <string>
@@ -1087,28 +1087,80 @@ using namespace std;
 //     }
 // };
 
-class Solution {
+// class Solution {
+// public:
+//     int candy(vector<int>& ratings) {
+//         vector<int> dp(ratings.size(),1);
+//         int i=0;
+//         for(i=1;i<ratings.size();++i){
+//             //右大于左，必然右边比左边大1;
+//             if(ratings[i]>ratings[i-1])
+//                 dp[i] = dp[i-1]+1;
+//         }
+//         for(int j=ratings.size()-2;j>=0;--j){
+//             if(ratings[j]>ratings[j+1]){
+//                 dp[j] = max(dp[j],dp[j+1]+1);
+//             }
+//         }
+//         return accumulate(dp.begin(),dp.end(),0);
+//     }
+// };
+
+
+// int main(){
+//     vector<int> ratings = {1,0,2};
+//     Solution solver;
+//     cout<<solver.candy(ratings);
+// }
+
+
+class MedianFinder {
 public:
-    int candy(vector<int>& ratings) {
-        vector<int> dp(ratings.size(),1);
-        int i=0;
-        for(i=1;i<ratings.size();++i){
-            //右大于左，必然右边比左边大1;
-            if(ratings[i]>ratings[i-1])
-                dp[i] = dp[i-1]+1;
-        }
-        for(int j=ratings.size()-2;j>=0;--j){
-            if(ratings[j]>ratings[j+1]){
-                dp[j] = max(dp[j],dp[j+1]+1);
-            }
-        }
-        return accumulate(dp.begin(),dp.end(),0);
+    MedianFinder() {
+
     }
+    void addNum(int num) {
+        q.push(num);
+        ++size;
+    }
+    double findMedian() {
+        int sz = q.size()/2;
+        if(q.size()%2){
+            while(sz--){
+                v.push_back(q.top());
+                q.pop();
+            }
+            mean = q.top();
+            for(auto i:v){
+                q.push(i);
+            }
+            v.clear();
+            return mean;
+        }else{
+            while(sz--){
+                v.push_back(q.top());
+                q.pop();
+            }
+            mean = (q.top()+v.back())/2;
+            for(auto i:v){
+                q.push(i);
+            }
+            v.clear();
+            return mean;
+        }
+    }
+private:
+    priority_queue<double,vector<double>,greater<double>> q;
+    int size = 0;
+    vector<double> v;
+    double mean = 0.0;
+
 };
 
-
 int main(){
-    vector<int> ratings = {1,0,2};
-    Solution solver;
-    cout<<solver.candy(ratings);
+    MedianFinder m;
+    m.addNum(1);
+    cout<<m.findMedian()<<endl;
+    m.addNum(2);
+    cout<<m.findMedian()<<endl;
 }
