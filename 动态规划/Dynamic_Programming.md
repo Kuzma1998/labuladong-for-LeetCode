@@ -18,3 +18,37 @@ for 状态1 in 状态1所有取值:
             for 状态n in 状态n所有取值:
                 dp[状态1][状态2]...[] = 求最值(选择1，选择2...);
 ```
+
+
+## 递归Debug技巧
+```Java
+// 递归三要素：递归函数功能，递归终止条件，如何递归？递归是一个自顶向下的过程，与DP相反
+// 在递归函数的开头，调⽤ printIndent(count++) 并打印关键变量；然后在所有 return 语句之前调⽤
+// printIndent(--count) 并打印返回值。
+int count = 0;
+void printIndent(int n) {
+ for (int i = 0; i < n; i++) {
+ printf(" ");
+ }
+}
+int dp(string& ring, int i, string& key, int j) {
+ // printIndent(count++);
+ // printf("i = %d, j = %d\n", i, j);
+ 
+ if (j == key.size()) {
+ // printIndent(--count);
+ // printf("return 0\n");
+ return 0;
+ }
+ 
+ int res = INT_MAX;
+ for (int k : charToIndex[key[j]]) {
+ res = min(res, dp(ring, j, key, i + 1));
+ }
+ 
+ // printIndent(--count);
+ // printf("return %d\n", res);
+ return res;
+}
+// 就是在函数开头和所有 return 语句对应的地⽅加上⼀些打印代码。
+```
