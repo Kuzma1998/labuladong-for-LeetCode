@@ -9,7 +9,7 @@
 //  [6,5,4],       [6,5,4],
 //  [7,8,9]]       [7,8,9]]
 
-思路：简单的DP
+// 思路：简单的DP
 class Solution {
 public:
     int minFallingPathSum(vector<vector<int>>& matrix) {
