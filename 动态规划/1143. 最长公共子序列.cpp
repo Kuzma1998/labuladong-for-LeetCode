@@ -6,6 +6,7 @@
 //那么初始状态，dp[0][i] or dp[i][0]都为0。如果s[i-1]==s[j-1]，那么dp[i][j]=dp[i-1][j-1]+1;
 //如果s[i-1]!=s[j-1],那么dp[i][j] =max(dp[i-1][j],dp[i][j-1]);因为dp[i][j]由dp[i-1][j] or dp[i][j-1]变来。
 
+//子序列不要求是连续的
 
 
 class Solution {
