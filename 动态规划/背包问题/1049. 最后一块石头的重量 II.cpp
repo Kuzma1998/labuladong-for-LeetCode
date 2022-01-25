@@ -11,4 +11,4 @@ public:
         }
         return sum-dp[target]*2;
     }
-};s
+};

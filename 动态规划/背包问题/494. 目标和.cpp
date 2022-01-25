@@ -27,7 +27,7 @@ public:
     }
     int dg(vector<int>& nums, int target,int i){
         int n = nums.size();
-        if(i==nums.size()){ // 若i==数组长度，说明数组最近一个元素已经访问
+        if(i==nums.size()){ // 若i==数组长度，说明数组最后一个元素已经访问
             if(target==0)  //
                 return 1; // 如果目标变为0，则返回一种方法
             return 0;
@@ -40,8 +40,6 @@ public:
         return res;
     }
 };
-
-
 
 // 转换为dp问题
 //  sum(A) - sum(B) = target
@@ -75,4 +73,24 @@ public:
         }       
         return dp[n][target];
     } 
+};
+
+
+// 一维
+class Solution {
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int sum = accumulate(nums.begin(),nums.end(),target);
+        if(sum%2)
+            return 0;
+        sum = sum/2;
+        vector<int> dp(sum+1,0);
+        dp[0] =1;//装满容量为0的背包，只有不装
+        for(int i=0;i<nums.size();++i){
+            for(int j=sum;j>=nums[i];--j){
+                dp[j] += dp[j-nums[i]];
+            }
+        }
+        return dp[sum];
+    }
 };
