@@ -14,12 +14,13 @@ public:
         vector<int> ans(amount+1,0);//备忘录
         return dp(amount,coins,ans);
     }
+    // dp函数功能就是金额为n的情况下，最少需要多少张钞票
     int dp(int n,vector<int>& coins,vector<int>& ans){
         if (n==0) // 初始状态
             return 0;
         if(n<0) // 初始状态
             return -1;
-        if(ans[n]!=0) // 初始状态
+        if(ans[n]!=0) // 备忘录不是初始状态
             return ans[n];
         int res = INT_MAX;
         for(int coin :coins){//选择条件
@@ -50,4 +51,24 @@ public:
         return (ans[amount]==amount+1)?-1:ans[amount];
     }
 
+};
+
+
+// 版本一
+// 求个数，遍历顺序无所谓
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        vector<int> dp(amount + 1, INT_MAX);
+        dp[0] = 0;
+        for (int i = 0; i < coins.size(); i++) { // 遍历物品
+            for (int j = coins[i]; j <= amount; j++) { // 遍历背包
+                if (dp[j - coins[i]] != INT_MAX) { // 如果dp[j - coins[i]]是初始值则跳过
+                    dp[j] = min(dp[j - coins[i]] + 1, dp[j]);
+                }
+            }
+        }
+        if (dp[amount] == INT_MAX) return -1;
+        return dp[amount];
+    }
 };

@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Li Jiaxin
- * @LastEditTime: 2022-01-16 12:35:19
+ * @LastEditTime: 2022-01-27 15:38:45
  */
 #include <iostream>
 #include <string>
@@ -1114,53 +1114,121 @@ using namespace std;
 // }
 
 
-class MedianFinder {
+// class MedianFinder {
+// public:
+//     MedianFinder() {
+
+//     }
+//     void addNum(int num) {
+//         q.push(num);
+//         ++size;
+//     }
+//     double findMedian() {
+//         int sz = q.size()/2;
+//         if(q.size()%2){
+//             while(sz--){
+//                 v.push_back(q.top());
+//                 q.pop();
+//             }
+//             mean = q.top();
+//             for(auto i:v){
+//                 q.push(i);
+//             }
+//             v.clear();
+//             return mean;
+//         }else{
+//             while(sz--){
+//                 v.push_back(q.top());
+//                 q.pop();
+//             }
+//             mean = (q.top()+v.back())/2;
+//             for(auto i:v){
+//                 q.push(i);
+//             }
+//             v.clear();
+//             return mean;
+//         }
+//     }
+// private:
+//     priority_queue<double,vector<double>,greater<double>> q;
+//     int size = 0;
+//     vector<double> v;
+//     double mean = 0.0;
+
+// };
+
+// int main(){
+//     MedianFinder m;
+//     m.addNum(1);
+//     cout<<m.findMedian()<<endl;
+//     m.addNum(2);
+//     cout<<m.findMedian()<<endl;
+// }
+
+
+// class Solution {
+// public:
+//     int coinChange(vector<int>& coins, int amount) {
+//         vector<int> ans(amount+1,0);//备忘录
+//         return dp(amount,coins,ans);
+//     }
+//     // dp函数功能就是金额为n的情况下，最少需要多少张钞票
+//     int dp(int n,vector<int>& coins,vector<int>& ans){
+//         // cout<<"amount: "<<""<<n<<" nums: "<<res<<endl;
+//         if (n==0) // 初始状态
+//             return 0;
+//         if(n<0) // 初始状态
+//             return -1;
+//         if(ans[n]!=0) // 备忘录不是初始状态
+//             return ans[n];
+//         int res = INT_MAX;
+//         for(int coin :coins){//选择条件
+//             int subproblem = dp(n-coin,coins,ans);
+//             cout<<"amount: "<<""<<n-coin<<" nums: "<<subproblem<<endl;
+//             if(subproblem==-1)
+//                 continue;
+//             res = min(res,1+subproblem);//状态转移
+         
+//         }
+//         // cout<<"amount: "<<""<<n<<" nums: "<<res<<endl;
+//         ans[n] = (res==INT_MAX)?-1:res;//更新ans
+//         return ans[n];
+//     }
+// };
+
+// int main(){
+//     Solution s;
+//     vector<int> coins{1,1,5};
+//     int amount =11;
+//     s.coinChange(coins, amount);
+// }
+
+
+class Solution {
 public:
-    MedianFinder() {
-
-    }
-    void addNum(int num) {
-        q.push(num);
-        ++size;
-    }
-    double findMedian() {
-        int sz = q.size()/2;
-        if(q.size()%2){
-            while(sz--){
-                v.push_back(q.top());
-                q.pop();
+    bool wordBreak(string s, vector<string>& wordDict) {
+        vector<bool> dp(s.size()+1,false);
+        dp[0] = true;
+        for(int i=0;i<s.size();){
+            string temp;
+            for(int j=0;j<wordDict.size();++j){
+                int sz = wordDict[j].size();
+                temp = s.substr(i,sz);
+                if(temp==wordDict[j]){
+                    dp[i+wordDict[j].size()] = dp[i];
+                    break;
+                }
             }
-            mean = q.top();
-            for(auto i:v){
-                q.push(i);
-            }
-            v.clear();
-            return mean;
-        }else{
-            while(sz--){
-                v.push_back(q.top());
-                q.pop();
-            }
-            mean = (q.top()+v.back())/2;
-            for(auto i:v){
-                q.push(i);
-            }
-            v.clear();
-            return mean;
+            i+=temp.size();
+            // i+=wordDict[j].size();
         }
+        return dp[s.size()];
     }
-private:
-    priority_queue<double,vector<double>,greater<double>> q;
-    int size = 0;
-    vector<double> v;
-    double mean = 0.0;
-
 };
 
 int main(){
-    MedianFinder m;
-    m.addNum(1);
-    cout<<m.findMedian()<<endl;
-    m.addNum(2);
-    cout<<m.findMedian()<<endl;
+    Solution solver;
+    string s = "applepenapple";
+    vector<string> wordDict{"apple","pen"};
+    cout<<solver.wordBreak(s,wordDict)<<endl;
 }
