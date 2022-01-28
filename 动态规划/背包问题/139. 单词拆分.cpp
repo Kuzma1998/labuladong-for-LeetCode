@@ -19,7 +19,7 @@ public:
                 int sz = wordDict[j].size();
                 temp = s.substr(i,sz);//
                 if(temp==wordDict[j]){//i往前截取sz单词如果相等
-                                        // 状态转移方程 ,若原来就是true，那就是true，若原来b's
+                                        // 状态转移方程 ,若原来就是true，那就是true，若原来不是true，若dp[i]是true，那么它一定是true
                     dp[i+wordDict[j].size()] = dp[i+wordDict[j].size()]||dp[i];
                 }
             }
