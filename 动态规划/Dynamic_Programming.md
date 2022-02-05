@@ -51,4 +51,6 @@ int dp(string& ring, int i, string& key, int j) {
  return res;
 }
 // 就是在函数开头和所有 return 语句对应的地⽅加上⼀些打印代码。
+// 仅仅给定数组字符串的递归是从0开始
+// 而给定某个条件如开始递归则递归开始是从条件开始
 ```
