@@ -38,7 +38,7 @@ public:
     int largestRectangleArea(vector<int>& heights) {
         int sum = 0;
         heights.insert(heights.begin(),0);
-        heights.insert(heights.end(),0);
+        heights.insert(heights.end(),0);//首尾加入0
         int sz = heights.size();
         stack<int> stk;
         stk.push(0);
