@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Li Jiaxin
- * @LastEditTime: 2022-02-15 10:34:21
+ * @LastEditTime: 2022-02-26 20:52:03
  */
 #include <iostream>
 #include <string>
@@ -1259,22 +1259,73 @@ using namespace std;
 //     cout<<solver.maxProfit(prices);
 // }
 
-int Min = INT_MAX;
+// int Min = INT_MAX;
 
-void dfs(int* nums, int count, int deep){
-    int value;
-    for(int i=deep+1;i<count;i++){
-        value = abs(nums[i]-nums[deep]);
-        if(value<Min){
-            Min=value;
-        }
-        dfs(nums,count,deep+1);
-    }
+// void dfs(int* nums, int count, int deep){
+//     int value;
+//     for(int i=deep+1;i<count;i++){
+//         value = abs(nums[i]-nums[deep]);
+//         if(value<Min){
+//             Min=value;
+//         }
+//         dfs(nums,count,deep+1);
+//     }
     
+// }
+
+// int main(){
+//     int nums[] = {6,9,4,4};
+//     dfs(nums,4,0);
+//     cout<<Min;
+// }
+class Solution {
+private:
+    string path;
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+     
+        for(int i=0;i<board.size();++i){
+            for(int j=0;j<board[0].size();++j){
+                if(backtrack(board,i,j,word))
+                    return true;
+            }
+        }
+        return false;
+    }                   
+    bool backtrack(vector<vector<char>>& board,int i,int j,string& word){
+        if(i==board.size()||j==board[0].size()||i<0||j<0){
+          return path==word;
+        }
+        if(board[i][j]=='\0')
+            return false;
+        path += board[i][j];
+        char temp = board[i][j]; 
+        board[i][j] = '\0';
+        bool flag = backtrack(board,i+1,j,word)
+        || backtrack(board,i-1,j,word)
+        || backtrack(board,i,j+1,word)
+        || backtrack(board,i,j-1,word);
+        board[i][j] = temp;
+        path.pop_back();
+        return flag;                                     
+    }
+};
+
+
+int getSum(int x){
+    int ans = 0;
+    while(x){
+        ans += x%10;
+        x /= 10;
+    }
+    return ans;
 }
 
 int main(){
-    int nums[] = {6,9,4,4};
-    dfs(nums,4,0);
-    cout<<Min;
+    // vector<vector<char>> board ={{'F','Y','C','E','N','R','D'},{'K','L','N','F','I','N','U'},{'A','A','A','R','A','H','R'},{'N','D','K','L','P','N','E'},{'A','L','A','N','S','A','P'},{'O','O','G','O','T','P','N'},{'H','P','O','L','A','N','O'}};
+    // string word = "poland";
+    // Solution s;
+    // // cout<<s.exist(board,word);
+    int a =19;
+    cout<<getSum(a);
 }
