@@ -199,8 +199,8 @@ int main()
     vector<int> a = {1, 3, 4, 3, 33, 3, 3, 5};
     // quick_sort1(a,0,a.size()-1);
     // shell_sort(a);
-    // Heap_Sort(a, a.size());
-    Merge_Sort(a);
+    Heap_Sort(a, a.size());
+    // Merge_Sort(a);
     for (int i = 0; i < a.size(); i++)
     {
         cout << a[i] << endl;

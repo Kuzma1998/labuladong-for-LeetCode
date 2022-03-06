@@ -4,7 +4,7 @@
  * @Author: Li Jiaxin
  * @Date: 2021-10-30 19:47:56
  * @LastEditors: Li Jiaxin
- * @LastEditTime: 2022-03-01 20:14:18
+ * @LastEditTime: 2022-03-04 22:16:43
  */
 #include <iostream>
 #include <string>
@@ -1338,15 +1338,16 @@ using namespace std;
 
 
 int main(){
-    vector<vector<char>> board ={{'F','Y','C','E','N','R','D'},{'K','L','N','F','I','N','U'},{'A','A','A','R','A','H','R'},{'N','D','K','L','P','N','E'},{'A','L','A','N','S','A','P'},{'O','O','G','O','T','P','N'},{'H','P','O','L','A','N','O'}};
-    string word = "poland";
-    Solution s;
-    // cout<<s.exist(board,word);
-    int a =19;
-    cout<<getSum(a);
-    string a= "  ";
-    deleteSpace(a);
-    cout<<a;
+    // vector<vector<char>> board ={{'F','Y','C','E','N','R','D'},{'K','L','N','F','I','N','U'},{'A','A','A','R','A','H','R'},{'N','D','K','L','P','N','E'},{'A','L','A','N','S','A','P'},{'O','O','G','O','T','P','N'},{'H','P','O','L','A','N','O'}};
+    // string word = "poland";
+    // Solution s;
+    // // cout<<s.exist(board,word);
+    // int a =19;
+    // cout<<getSum(a);
+    // string a= "  ";
+    // deleteSpace(a);
+    // cout<<a;
+
 
     
 }
