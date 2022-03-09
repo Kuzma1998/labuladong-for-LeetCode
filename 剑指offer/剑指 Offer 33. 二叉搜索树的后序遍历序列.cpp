@@ -54,7 +54,7 @@ public:
     bool dg(vector<int>& postorder,int l,int r){
         if(l>=r)
             return true;
-        int cut = 0;
+        int cut = left;
         // 小于根节点
         while(postorder[cut]<postorder[r]){// 前一块
             ++cut;
