@@ -18,4 +18,38 @@
 // 输入：s = "abc3[cd]xyz"
 // 输出："abccdcdcdxyz"
 
+// 数字栈 字符串栈
 
+class Solution {
+public:
+    string decodeString(string s) {
+        string ans = "";
+        stack<string> str;
+        stack<int> nums;
+        int num = 0;
+        for(int i=0;i<s.size();++i){
+            if(s[i]>='0'&&s[i]<='9'){
+                num = 10*num + s[i]-'0'; //数字
+            }
+            else if(s[i]=='['){ //遇到左括号  加入数字，把当前字符串加入到栈以便累加
+                nums.push(num); 
+                str.push(ans);
+                num=0;  //清空
+                ans="";
+            }
+            else if(s[i]==']'){  //若遇到右括号 开始累加多次
+                int times = nums.top();
+                nums.pop();
+                while(times--){
+                    str.top() += ans;
+                }
+                ans = str.top();
+                str.pop();
+            }
+            else{
+                ans += s[i];
+            }
+        }
+        return ans;
+    }
+};
