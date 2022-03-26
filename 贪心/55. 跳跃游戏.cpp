@@ -6,6 +6,7 @@
 // 输出：true
 // 解释：可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。
 
+<<<<<<< Updated upstream
 // 贪心
 class Solution {
 public:
@@ -17,5 +18,22 @@ public:
                 return true;
         }
         return false;
+
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        vector<int> dp(nums.size(),0);
+        int max_step = nums[0];
+        dp[0] = nums[0];
+        for(int i=0;i<nums.size();++i){
+            if(i>max_step)
+                return false;
+            dp[i] = max(dp[i-1],i+nums[i]);
+            max_step = max(max_step,dp[i]);
+            if(max_step>nums.size())
+                return true;
+        }
+        return true;
     }
 };
