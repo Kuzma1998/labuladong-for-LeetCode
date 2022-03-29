@@ -1,6 +1,6 @@
 
 
-
+//位运算 把n用二进制数表示
 
 class Solution {
 public:

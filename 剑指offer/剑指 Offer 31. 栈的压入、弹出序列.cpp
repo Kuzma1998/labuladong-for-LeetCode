@@ -30,3 +30,25 @@ public:
         return stk.empty();
     }
 };
+
+
+// twice
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        stack<int> s;
+        int pl = 0;
+        for(int i=0;i<pushed.size();++i){
+            if(pushed[i]!=popped[pl]){
+                s.push(pushed[i]);
+            }else{
+                ++pl;
+                while(!s.empty()&&pl<pushed.size()&&popped[pl]==s.top()){
+                    ++pl;
+                    s.pop();
+                }
+            }
+        }
+        return s.empty();
+    }
+};
