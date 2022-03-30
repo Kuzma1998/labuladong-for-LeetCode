@@ -5,7 +5,7 @@
 // 输出: 5
 // 解释: 12258有5种不同的翻译，分别是"bccfi", "bwfi", "bczi", "mcfi"和"mzi"
 
-// DP
+// DP   其实就是爬楼梯
 class Solution {
 public:
     int translateNum(int num) {
