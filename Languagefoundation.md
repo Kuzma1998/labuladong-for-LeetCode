@@ -212,3 +212,208 @@ value_type& top();//返回栈顶元素
 
 void pop();
 ```
+
+## 7 优先队列 priority_queue
+```C++
+//升序队列
+priority_queue <int,vector<int>,greater<int> > q;
+//降序队列
+priority_queue <int,vector<int>,less<int> >q;
+
+//greater和less是std实现的两个仿函数（就是使一个类的使用看上去像一个函数。其实现就是类中实现一个operator()，这个类就有了类似函数的行为，就是一个仿函数类了）
+#include<iostream>
+#include <queue>
+using namespace std;
+int main() 
+{
+    //对于基础类型 默认是大顶堆
+    priority_queue<int> a; 
+    //等同于 priority_queue<int, vector<int>, less<int> > a;
+
+    priority_queue<int, vector<int>, greater<int>>c;  
+    //这样就是小顶堆
+    priority_queue<string> b; //大顶堆
+
+// pari的比较，先比较第一个元素，第一个相等比较第二个
+    priority_queue<pair<int, int> > a;
+    pair<int, int> b(1, 2);
+    pair<int, int> c(1, 3);
+    pair<int, int> d(2, 5);
+    a.push(d);
+    a.push(c);
+    a.push(b);
+    while (!a.empty()) 
+    {
+        cout << a.top().first << ' ' << a.top().second << '\n';
+        a.pop();
+    }
+    // 对于自定义的类型 lambda表达式即可
+
+```
+
+## 建树
+```C++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+private:
+    string data;
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        if(!root)
+            return "";
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()){
+            TreeNode* r = q.front();
+            q.pop();
+            if(r){
+                data += to_string(r->val)+",";
+            }else{
+                data += "#,";
+                continue;// 若没有这个跳出，则会死循环
+            }
+            q.push(r->left);
+            q.push(r->right);
+        }
+        data.pop_back();
+        return data;
+    }
+
+    vector<string> deleteSep(string& data){
+        vector<string> q;
+        int size = data.size();
+        if(!data.size())
+            return q;
+        int pre = 1;
+        for(int i=0;i<=size;i++){
+            if(data[i]==','||i==size){
+                q.push_back(data.substr(pre,i-pre));
+                pre = i+1;
+            }
+        }
+        return q;
+    }
+
+    TreeNode* buildTree(vector<string>& que){
+        if (que.empty())   return nullptr;
+        string node = que[0];
+        TreeNode* root = new TreeNode(stoi(node));
+        queue<TreeNode*> q;
+        q.push(root);
+       for(int i =1; i < que.size(); ) {
+            TreeNode* node = q.front();
+            q.pop();
+            if (node == nullptr)    continue;
+            string s_left = que[i++];
+            if (s_left == "#")
+                node->left = nullptr;
+            else
+                node->left = new TreeNode(stoi(s_left));
+            q.push(node->left);
+
+            string s_right = que[i++];
+            if (s_right == "#")
+                node->right = nullptr;
+            else
+                node->right = new TreeNode(stoi(s_right));
+            q.push(node->right);
+        }
+        return root;
+    }
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        vector<string> v = deleteSep(data);
+        return buildTree(v);
+    }
+
+
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser, deser;
+// TreeNode* ans = deser.deserialize(ser.serialize(root));
+```
+
+## 链表
+```C++
+// 输入一个单向链表和一个节点的值，从单向链表中删除等于该值的节点，删除后如果链表中无节点则返回空指针。
+
+// 链表的值不能重复。
+
+// 构造过程，例如输入一行数据为:
+// 6 2 1 2 3 2 5 1 4 5 7 2 2
+// 则第一个参数6表示输入总共6个节点，第二个参数2表示头节点值为2，剩下的2个一组表示第2个节点值后面插入第1个节点值，为以下表示:
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int val;
+    Node* next;
+    Node():val(0),next(nullptr){
+        
+    }
+    Node(int v): val(v),next(nullptr){
+    }
+};
+
+int main()
+{
+    int n = 0;
+    int hv = 0;
+   cin>>n>>hv;
+        Node *head = new Node(hv);
+        int pre = 0, cur = 0;
+        --n;
+        while (n--)
+        {
+            cin >> cur >> pre;
+            Node *node = head;
+            while (node->val != pre)
+            {
+                node = node->next;
+            }
+            Node *next = node->next;
+            node->next = new Node(cur);
+            node->next->next = next;
+        }
+        int del = 0;
+        cin >> del;
+        if (head->val == del)
+        {
+            head = head->next;
+            while (head)
+            {
+                cout << head->val << " ";
+                head = head->next;
+            }
+        }
+        else
+        {
+            while (head)
+            {
+                if (head->val != del)
+                {
+                    cout << head->val << " ";
+                }
+                head = head->next;
+            }
+        }
+    cout << endl;
+    return 0;
+}
+```
+
+## 小数点后n位
+```C++
+cout<<setioflags(ios::fixed)<<setprecision(n);
+```
