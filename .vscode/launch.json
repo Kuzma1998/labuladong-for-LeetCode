@@ -9,7 +9,7 @@
             "name": "g++.exe - 生成和调试活动文件",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
@@ -17,7 +17,7 @@
             "externalConsole": false,
             "MIMode": "gdb",
             // "miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe",
-            "miDebuggerPath": "F:\\mingw64\\bin\\gdb.exe",
+            "miDebuggerPath": "F:\\mingw64\\bin\\gdb",
             "setupCommands": [
                 {
                     "description": "为 gdb 启用整齐打印",

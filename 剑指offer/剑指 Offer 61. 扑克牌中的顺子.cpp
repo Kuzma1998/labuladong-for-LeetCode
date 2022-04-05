@@ -27,3 +27,39 @@ public:
         return nums[4]-nums[jokers]<5;
     }
 };
+
+// 自己写的  
+class Solution {
+public:
+    bool isStraight(vector<int>& nums) {
+        // 排序统计0的个数
+        sort(nums.begin(),nums.end());
+        int zero = 0; 
+        for(auto num:nums){
+            if(num==0)  
+                ++zero;
+        }
+        // 没有0的话 后一个只能比前一个大一
+        if(zero==0){
+            for(int i=1;i<5;++i){
+                if(nums[i]==nums[i-1])
+                    return false;
+                else if(nums[i]-nums[i-1]>1)
+                    return false;
+                else if(nums[i]==nums[i-1]+1)
+                    continue;
+            }
+            return true;
+        }
+        // 有0的话 ，后一个比前一个差只能小于等于0的个数+1
+        for(int i=zero+1;i<5;++i){
+            if(nums[i]==nums[i-1])
+                return false;
+            else if(nums[i]-nums[i-1]>zero+1)
+                return false;
+            else if(nums[i]-nums[i-1]<=zero+1)
+                continue;
+        }
+        return true;
+    }
+};
