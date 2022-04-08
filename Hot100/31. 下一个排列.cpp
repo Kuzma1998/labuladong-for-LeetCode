@@ -15,6 +15,9 @@
 // 给你一个整数数组 nums ，找出 nums 的下一个排列。
 // 必须 原地 修改，只允许使用额外常数空间。
 
+// [1,4,7,6,5,3,2]
+
+
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
