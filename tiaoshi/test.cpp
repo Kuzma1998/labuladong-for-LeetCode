@@ -389,41 +389,7 @@ public:
 //     cout<<ans<<endl;
 // }
 
-vector<pair<int,int>> pos;
 
-void backtrack(vector<vector<int>>& map,int i,int j,int m,int n){
-    if(i<0||i==m||j<0||j==n){
-        return;
-    }
-    if(i==0&&j==0&&map[i][j]){
-        if(map[i+1][j]+map[i][j+1]==0){
-            pos.push_back({i,j});
-        }
-    }
-    else if (i==0&&map[i][j]){
-        if(map[i+1][j]+map[i][j+1]+map[i][j-1]<=1){
-            pos.push_back({i,j});
-        }
-    }
-    else if (j==0&&map[i][j]){
-        if(map[i+1][j]+map[i-1][j]+map[i][j+1]<=1){
-            pos.push_back({i,j});
-        }
-    }
-
-    else if (i==m-1&&j==n-1&&map[i][j]){
-        if(map[i-1][j]+map[i][j-1]==0){
-            pos.push_back({i,j});
-        }
-    }
-    else if (map[i+1][j]+map[i-1][j]+map[i][j+1]+map[i][j-1]<=2&&map[i][j])
-        pos.push_back({i,j});
-
-    backtrack(map,i+1,j,m,n);
-    backtrack(map,i-1,j,m,n);
-    backtrack(map,i,j+1,m,n);
-    backtrack(map,i,j-1,m,n);
-}
 
 int main(){
     int T =0;
@@ -440,9 +406,13 @@ int main(){
                 map[i][j] = str[j]-'0';
             }
         }
-        backtrack(map,0,0,m,n);
-        for(auto p:pos){
-            map[p.first][p.second] = 0;
-        }
+
+        for(int i)
+        // 找到所有的1
+
+        // 判断会不会被淹没
+
+        //修改数组
+       
     }
 }
