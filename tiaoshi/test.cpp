@@ -274,40 +274,175 @@ public:
     }
 };
 
+// int main(){
+
+//     vector<int> l1 = {1,2,4};
+//     vector<int> l2 = {1,3,4};
+//     ListNode* dummy1 = new ListNode(0);
+//     ListNode* head1 = dummy1;
+//     for(int i=0;i<l1.size();++i){
+//         dummy1->next = new ListNode(l1[i]);
+//         dummy1 = dummy1->next;
+//     }
+//     head1 = head1->next;
+
+//     ListNode* dummy2 = new ListNode(0);
+//     ListNode* head2 = dummy2;
+//     for(int i=0;i<l2.size();++i){
+//         dummy2->next = new ListNode(l2[i]);
+//         dummy2 = dummy2->next;
+//     }
+//     head2 = head2->next;
+
+
+
+//     vector<int> ans;
+
+//     Solution s;
+//     ListNode* head = s.mergeTwoLists(head1,head2);
+//     while (head)
+//     {
+//         ans.push_back(head->val);
+//         head = head->next;
+//     }
+//     for(auto i:ans){
+//         cout<<i<<" ";
+//     }
+//     cout<<endl;
+//     return 0;
+// }
+
+// int main(){
+//     int N=0;
+//     cin>>N;
+//     vector<int> nums(N,0);
+//     for(int i=0;i<N;++i){
+//         cin>>nums[i];
+//     }
+//     int rmost = 0;
+//     bool flag = false;
+//     for(int i=0;i<N;++i){
+//         if(i<=rmost){
+//             rmost = max(rmost,i+nums[i]);
+//             if(rmost>=N-1){
+//                 flag = true;
+//                 break;
+//             }
+                
+//         }
+//     }
+//     cout<<flag<<endl;
+
+//     return 0;
+// }
+
+// int main(){
+//     string str="";
+//     vector<string> vec;
+//     getline(cin,str);
+//     int pre = 0;
+//     for(int i=0;i<str.size();++i){
+//         if(str[i]==' '||i==str.size()-1){
+//             if(str[i]==' '){
+//                 vec.push_back(str.substr(pre,i-pre));
+//                 pre =i+1;
+//             }
+//             if(i==str.size()-1){
+//                 vec.push_back(str.substr(pre));
+//             }
+//         }
+//     }
+
+//     set<int> ss;
+//     for(int i=0;i<10;++i){
+//         ss.insert(i);
+//     }
+//     int ans = 0;
+//     sort(vec.begin(),vec.end(),[](string a,string b){
+//         set<char> s1;
+//         set<char> s2;
+//         for(int i=0;i<3;++i){
+//             s1.insert(a[i]);
+//             s2.insert(b[i]);
+//         }
+//         return s1.size()>=s2.size();
+//     });
+
+//     for(auto s:vec){
+//         bool flag = false;
+//         for(auto c:s){
+//             if(ss.find(c-'0')!=ss.end()){
+//                 ss.erase(c-'0');
+//                 flag = true;
+//             }
+//             if(ss.size()==0){
+//                 break;
+//             }
+
+//         }
+//     if(flag){
+//                 ++ans;
+//             }
+//     }
+//     if(ss.size()!=0)
+//         cout<<-1<<endl;
+//     cout<<ans<<endl;
+// }
+
+vector<pair<int,int>> pos;
+
+void backtrack(vector<vector<int>>& map,int i,int j,int m,int n){
+    if(i<0||i==m||j<0||j==n){
+        return;
+    }
+    if(i==0&&j==0&&map[i][j]){
+        if(map[i+1][j]+map[i][j+1]==0){
+            pos.push_back({i,j});
+        }
+    }
+    else if (i==0&&map[i][j]){
+        if(map[i+1][j]+map[i][j+1]+map[i][j-1]<=1){
+            pos.push_back({i,j});
+        }
+    }
+    else if (j==0&&map[i][j]){
+        if(map[i+1][j]+map[i-1][j]+map[i][j+1]<=1){
+            pos.push_back({i,j});
+        }
+    }
+
+    else if (i==m-1&&j==n-1&&map[i][j]){
+        if(map[i-1][j]+map[i][j-1]==0){
+            pos.push_back({i,j});
+        }
+    }
+    else if (map[i+1][j]+map[i-1][j]+map[i][j+1]+map[i][j-1]<=2&&map[i][j])
+        pos.push_back({i,j});
+
+    backtrack(map,i+1,j,m,n);
+    backtrack(map,i-1,j,m,n);
+    backtrack(map,i,j+1,m,n);
+    backtrack(map,i,j-1,m,n);
+}
+
 int main(){
-
-    vector<int> l1 = {1,2,4};
-    vector<int> l2 = {1,3,4};
-    ListNode* dummy1 = new ListNode(0);
-    ListNode* head1 = dummy1;
-    for(int i=0;i<l1.size();++i){
-        dummy1->next = new ListNode(l1[i]);
-        dummy1 = dummy1->next;
+    int T =0;
+    cin>>T;
+    while(T--){
+        pos.clear();
+        int m=0;int n=0;
+        cin>>m>>n;
+        vector<vector<int>> map(m,vector<int>(n,0));
+        for(int i=0;i<m;++i){
+            string str;
+            cin>>str;
+            for(int j=0;j<n;++j){
+                map[i][j] = str[j]-'0';
+            }
+        }
+        backtrack(map,0,0,m,n);
+        for(auto p:pos){
+            map[p.first][p.second] = 0;
+        }
     }
-    head1 = head1->next;
-
-    ListNode* dummy2 = new ListNode(0);
-    ListNode* head2 = dummy2;
-    for(int i=0;i<l2.size();++i){
-        dummy2->next = new ListNode(l2[i]);
-        dummy2 = dummy2->next;
-    }
-    head2 = head2->next;
-
-
-
-    vector<int> ans;
-
-    Solution s;
-    ListNode* head = s.mergeTwoLists(head1,head2);
-    while (head)
-    {
-        ans.push_back(head->val);
-        head = head->next;
-    }
-    for(auto i:ans){
-        cout<<i<<" ";
-    }
-    cout<<endl;
-    return 0;
 }
