@@ -243,36 +243,36 @@ struct ListNode
 //     }
 // };
 
-class Solution {
-public:
-    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        if(!list1)
-            return list2;
-        if(!list2) 
-            return list1;
-        ListNode* dummy = new ListNode(0);
-        ListNode* ans = dummy;
-        while(list1&&list2){
+// class Solution {
+// public:
+//     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+//         if(!list1)
+//             return list2;
+//         if(!list2) 
+//             return list1;
+//         ListNode* dummy = new ListNode(0);
+//         ListNode* ans = dummy;
+//         while(list1&&list2){
 
-            if(list1->val<=list2->val){
-                dummy->next = new ListNode(list1->val);
-                cout<<list1->val<<endl;
-                list1 = list1->next;
-            }else{
-                dummy->next = new ListNode(list2->val);
-                cout<<list2->val<<endl;
-                list2 = list2->next;
-            }
-            dummy = dummy->next;
-        }
-        if(list1){
-            dummy->next = list1;
-        }else{
-            dummy->next = list2;
-        }
-        return ans->next;
-    }
-};
+//             if(list1->val<=list2->val){
+//                 dummy->next = new ListNode(list1->val);
+//                 cout<<list1->val<<endl;
+//                 list1 = list1->next;
+//             }else{
+//                 dummy->next = new ListNode(list2->val);
+//                 cout<<list2->val<<endl;
+//                 list2 = list2->next;
+//             }
+//             dummy = dummy->next;
+//         }
+//         if(list1){
+//             dummy->next = list1;
+//         }else{
+//             dummy->next = list2;
+//         }
+//         return ans->next;
+//     }
+// };
 
 // int main(){
 
@@ -391,28 +391,74 @@ public:
 
 
 
-int main(){
-    int T =0;
-    cin>>T;
-    while(T--){
-        pos.clear();
-        int m=0;int n=0;
-        cin>>m>>n;
-        vector<vector<int>> map(m,vector<int>(n,0));
-        for(int i=0;i<m;++i){
-            string str;
-            cin>>str;
-            for(int j=0;j<n;++j){
-                map[i][j] = str[j]-'0';
+// int main(){
+//     int T =0;
+//     cin>>T;
+//     while(T--){
+//         pos.clear();
+//         int m=0;int n=0;
+//         cin>>m>>n;
+//         vector<vector<int>> map(m,vector<int>(n,0));
+//         for(int i=0;i<m;++i){
+//             string str;
+//             cin>>str;
+//             for(int j=0;j<n;++j){
+//                 map[i][j] = str[j]-'0';
+//             }
+//         }
+
+//         for(int i)
+//         // 找到所有的1
+
+//         // 判断会不会被淹没
+
+//         //修改数组
+       
+//     }
+// }
+
+
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        if(n<2)
+            return 0;
+        vector<int> left(n,-1);
+        vector<int> right(n,-1);
+        int lmax = -1;
+        for(int i=1;i<n;++i){
+            lmax = max(lmax,height[i-1]);
+            if(height[i]<height[i-1])
+                left[i] = height[i-1];
+            else{
+                if(height[i]>lmax){
+   
+                    left[i] = -1;
+                }        
             }
         }
 
-        for(int i)
-        // 找到所有的1
-
-        // 判断会不会被淹没
-
-        //修改数组
-       
+        for(int i=n-2;i>=0;--i){
+            if(height[i]<height[i+1])
+                right[i] = height[i+1];
+            else
+                right[i] = right[i+1];
+        }
+        int ans = 0;
+        for(int i=1;i<n-1;++i){
+            if(left[i]==-1||right[i]==-1)
+                continue;
+            ans += (min(right[i],left[i])-height[i]);
+        }
+        return ans;
     }
+};
+
+int main(){
+    vector<int> v={0,1,0,2,1,0,1,3,2,1,2,1};
+    Solution s;
+    cout<<s.trap(v)<<endl;
+    return 0;
 }
