@@ -419,46 +419,132 @@ struct ListNode
 
 
 
-class Solution {
-public:
-    int trap(vector<int>& height) {
-        int n = height.size();
-        if(n<2)
-            return 0;
-        vector<int> left(n,-1);
-        vector<int> right(n,-1);
-        int lmax = -1;
-        for(int i=1;i<n;++i){
-            lmax = max(lmax,height[i-1]);
-            if(height[i]<height[i-1])
-                left[i] = height[i-1];
-            else{
-                if(height[i]>lmax){
+// class Solution {
+// public:
+//     int trap(vector<int>& height) {
+//         int n = height.size();
+//         if(n<2)
+//             return 0;
+//         vector<int> left(n,-1);
+//         vector<int> right(n,-1);
+//         int lmax = -1;
+//         for(int i=1;i<n;++i){
+//             lmax = max(lmax,height[i-1]);
+//             if(height[i]<height[i-1])
+//                 left[i] = height[i-1];
+//             else{
+//                 if(height[i]>lmax){
    
-                    left[i] = -1;
-                }        
-            }
+//                     left[i] = -1;
+//                 }        
+//             }
+//         }
+
+//         for(int i=n-2;i>=0;--i){
+//             if(height[i]<height[i+1])
+//                 right[i] = height[i+1];
+//             else
+//                 right[i] = right[i+1];
+//         }
+//         int ans = 0;
+//         for(int i=1;i<n-1;++i){
+//             if(left[i]==-1||right[i]==-1)
+//                 continue;
+//             ans += (min(right[i],left[i])-height[i]);
+//         }
+//         return ans;
+//     }
+// };
+
+// int main(){
+//     vector<int> v={0,1,0,2,1,0,1,3,2,1,2,1};
+//     Solution s;
+//     cout<<s.trap(v)<<endl;
+//     return 0;
+// }
+
+
+// class Solution {
+// public:
+//     string minWindow(string s, string t) {
+//         if(t.size()>s.size()){
+//             return "";
+//         }
+//         int l=0,r=0,len=100000;
+//         int char_len = 0;
+//         string ans;
+//         unordered_map<char,int> mp1,mp2;
+//         for(auto c:t)
+//             mp1[c]++;
+//         while(r<s.size()){
+//             char c = s[r++];
+//             if(mp1.count(c)){
+//                 mp2[c]++;
+//                 if(mp1[c]==mp2[c])
+//                     ++char_len;
+//             }
+//             while(char_len==mp1.size()){
+//                 if(r-l<len){
+//                     len = r-l;
+//                     cout<<len<<endl;
+//                     ans = s.substr(l,r-l);
+//                 }
+//                 char rm_left = s[l++];
+//                 if(mp1.count(rm_left)){
+//                     mp2[rm_left]--;
+//                     if(mp1[rm_left]>mp2[rm_left])
+//                         --char_len;
+//                 }
+//             }
+//         }
+//         return ans;
+//     }
+// };
+
+// int main(){
+
+//     string s = "ADOBECODEBANC";
+//     string t = "ABC";
+//     Solution solver;
+//     cout<<solver.minWindow(s,t)<<endl;
+// }
+
+
+
+class Solution {
+private:
+    vector<vector<int>> ans;
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<bool> used(nums.size(),false);
+        vector<int> path = {};
+        dfs(nums,used,path,0);
+        return ans;
+    }
+
+    void dfs(vector<int>& nums,vector<bool>& used,vector<int>& path,int index){
+        ans.push_back(path);
+        if(index>=nums.size()){
+            return;
+        }
+        for(int i=index;i<nums.size();++i){
+            if(used[i])
+                continue;
+            path.push_back(nums[i]);
+            used[i] = true;
+            index+=1
+            dfs(nums,used,path,i+1);
+            used[i] = false;
+            path.pop_back();
         }
 
-        for(int i=n-2;i>=0;--i){
-            if(height[i]<height[i+1])
-                right[i] = height[i+1];
-            else
-                right[i] = right[i+1];
-        }
-        int ans = 0;
-        for(int i=1;i<n-1;++i){
-            if(left[i]==-1||right[i]==-1)
-                continue;
-            ans += (min(right[i],left[i])-height[i]);
-        }
-        return ans;
     }
 };
 
+
 int main(){
-    vector<int> v={0,1,0,2,1,0,1,3,2,1,2,1};
-    Solution s;
-    cout<<s.trap(v)<<endl;
-    return 0;
+    vector<int> nums = {1,2,3};
+    Solution solver;
+    auto ans = solver.subsets(nums);
 }
