@@ -511,40 +511,71 @@ struct ListNode
 
 
 
+// class Solution {
+// private:
+//     vector<vector<int>> ans;
+// public:
+//     vector<vector<int>> subsets(vector<int>& nums) {
+//         sort(nums.begin(),nums.end());
+//         vector<bool> used(nums.size(),false);
+//         vector<int> path = {};
+//         dfs(nums,used,path,0);
+//         return ans;
+//     }
+
+//     void dfs(vector<int>& nums,vector<bool>& used,vector<int>& path,int index){
+//         ans.push_back(path);
+//         if(index>=nums.size()){
+//             return;
+//         }
+//         for(int i=index;i<nums.size();++i){
+//             if(used[i])
+//                 continue;
+//             path.push_back(nums[i]);
+//             used[i] = true;
+//             index+=1
+//             dfs(nums,used,path,i+1);
+//             used[i] = false;
+//             path.pop_back();
+//         }
+
+//     }
+// };
+
+
+// int main(){
+//     vector<int> nums = {1,2,3};
+//     Solution solver;
+//     auto ans = solver.subsets(nums);
+// }
+
+
+
 class Solution {
-private:
-    vector<vector<int>> ans;
 public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        sort(nums.begin(),nums.end());
-        vector<bool> used(nums.size(),false);
-        vector<int> path = {};
-        dfs(nums,used,path,0);
-        return ans;
-    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+        // dp[j]表示s里面前j个是否可以由wordDict里的单词构成
+        vector<bool> dp(s.size()+1,false);
+        dp[0] = true;
 
-    void dfs(vector<int>& nums,vector<bool>& used,vector<int>& path,int index){
-        ans.push_back(path);
-        if(index>=nums.size()){
-            return;
+        for(int i=0;i<s.size();++i){
+            string str;
+            for(int j=0;j<wordDict.size();++j){
+                str = wordDict[j];
+                if(str==s.substr(i,str.size()))
+                    dp[i+str.size()] = dp[i+str.size()]||dp[i];
+            }
         }
-        for(int i=index;i<nums.size();++i){
-            if(used[i])
-                continue;
-            path.push_back(nums[i]);
-            used[i] = true;
-            index+=1
-            dfs(nums,used,path,i+1);
-            used[i] = false;
-            path.pop_back();
-        }
-
+        return dp.back();
     }
 };
 
-
 int main(){
-    vector<int> nums = {1,2,3};
+    string s1 = "aaaa";
+    string s2 = "aaa";
+    vector<string> wordDict = {s1,s2};
+    string s("aaaaaaa");
     Solution solver;
-    auto ans = solver.subsets(nums);
+    bool flag = solver.wordBreak(s,wordDict);
+
 }
