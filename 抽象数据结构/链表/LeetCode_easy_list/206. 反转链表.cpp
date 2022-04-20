@@ -72,7 +72,6 @@ class Solution {
 private:
     ListNode* successor;
 public:
-
     ListNode* reverseBetween(ListNode* head,int M,int N) {
         // base case 
         if(M==1){
@@ -82,7 +81,6 @@ public:
         head->next = reverseBetween(head->next,M-1,N-1);
         return head;
     }
-
     ListNode* reverseN(ListNode* head,int N) {
         // base case 
         if(N==1){
