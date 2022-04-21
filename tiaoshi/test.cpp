@@ -551,31 +551,69 @@ struct ListNode
 
 
 
+// class Solution {
+// public:
+//     bool wordBreak(string s, vector<string>& wordDict) {
+//         // dp[j]表示s里面前j个是否可以由wordDict里的单词构成
+//         vector<bool> dp(s.size()+1,false);
+//         dp[0] = true;
+
+//         for(int i=0;i<s.size();++i){
+//             string str;
+//             for(int j=0;j<wordDict.size();++j){
+//                 str = wordDict[j];
+//                 if(str==s.substr(i,str.size()))
+//                     dp[i+str.size()] = dp[i+str.size()]||dp[i];
+//             }
+//         }
+//         return dp.back();
+//     }
+// };
+
+// int main(){
+//     string s1 = "aaaa";
+//     string s2 = "aaa";
+//     vector<string> wordDict = {s1,s2};
+//     string s("aaaaaaa");
+//     Solution solver;
+//     bool flag = solver.wordBreak(s,wordDict);
+
+// }
+
+
 class Solution {
 public:
-    bool wordBreak(string s, vector<string>& wordDict) {
-        // dp[j]表示s里面前j个是否可以由wordDict里的单词构成
-        vector<bool> dp(s.size()+1,false);
-        dp[0] = true;
-
-        for(int i=0;i<s.size();++i){
-            string str;
-            for(int j=0;j<wordDict.size();++j){
-                str = wordDict[j];
-                if(str==s.substr(i,str.size()))
-                    dp[i+str.size()] = dp[i+str.size()]||dp[i];
+    int findKthLargest(vector<int>& nums, int k) {
+        for(int i=k/2-1;i>=0;--i){
+            percDown(nums,i,k);
+        }
+        for(int i=k;i<nums.size();++i){
+            if(nums[i]>nums[0]){
+                nums[0] = nums[i];
+                percDown(nums,0,k);
             }
         }
-        return dp.back();
+        return nums[0];
+    }
+    
+    void percDown(vector<int>& nums,int i,int N){
+        int parent,child;
+        int temp = nums[i];
+        for(parent=i;parent*2+1<N;parent=child){
+            child = parent*2+1;
+            if(child!=N-1&&nums[child]>nums[child+1])
+                child += 1;
+            if(temp<=nums[child])
+                break;
+            else
+                nums[parent] = nums[child];
+        }
+        swap(nums[parent],temp);
     }
 };
 
 int main(){
-    string s1 = "aaaa";
-    string s2 = "aaa";
-    vector<string> wordDict = {s1,s2};
-    string s("aaaaaaa");
-    Solution solver;
-    bool flag = solver.wordBreak(s,wordDict);
-
+    vector<int> nums{5,2,4,1,3,6,0};
+    Solution s;
+    cout<<s.findKthLargest(nums,4);
 }
