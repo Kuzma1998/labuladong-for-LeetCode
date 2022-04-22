@@ -15,6 +15,7 @@
 #include <unordered_set>
 #include <stack>
 #include <string>
+#include<bits/stdc++.h>
 using namespace std;
 
 // class Solution {
@@ -208,14 +209,14 @@ using namespace std;
 
 // }
 
-struct ListNode
-{
-    int val;
-    ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
-};
+// struct ListNode
+// {
+//     int val;
+//     ListNode *next;
+//     ListNode() : val(0), next(nullptr) {}
+//     ListNode(int x) : val(x), next(nullptr) {}
+//     ListNode(int x, ListNode *next) : val(x), next(next) {}
+// };
 
 // class Solution
 // {
@@ -581,39 +582,88 @@ struct ListNode
 // }
 
 
+// class Solution {
+// public:
+//     int findKthLargest(vector<int>& nums, int k) {
+//         for(int i=k/2-1;i>=0;--i){
+//             percDown(nums,i,k);
+//         }
+//         for(int i=k;i<nums.size();++i){
+//             if(nums[i]>nums[0]){
+//                 nums[0] = nums[i];
+//                 percDown(nums,0,k);
+//             }
+//         }
+//         return nums[0];
+//     }
+    
+//     void percDown(vector<int>& nums,int i,int N){
+//         int parent,child;
+//         int temp = nums[i];
+//         for(parent=i;parent*2+1<N;parent=child){
+//             child = parent*2+1;
+//             if(child!=N-1&&nums[child]>nums[child+1])
+//                 child += 1;
+//             if(temp<=nums[child])
+//                 break;
+//             else
+//                 nums[parent] = nums[child];
+//         }
+//         swap(nums[parent],temp);
+//     }
+// };
+
+
+
+
+// class Solution {
+// public:
+//     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+//         priority_queue<pair<int,int>> q;
+//         vector<int> ans;
+//         for(int i=0;i<k;++i){
+//             q.push({nums[i],i});
+//         }
+//         ans.push_back(q.top().first);
+//         for(int i=k;i<nums.size();++i){
+//             while(i>=q.top().second+k){
+//                 q.pop();
+//             }
+//             q.push({nums[i],i});
+//             ans.push_back(q.top().first);
+//         }
+//         return ans;
+
+//     }
+// };
+
+
+// int main(){
+
+//     vector<int> nums = {9,10,9,-7,-4,-8,2,-6};
+//     Solution solver;
+//     solver.maxSlidingWindow(nums,5);
+//     return 0; 
+// }
+
+
 class Solution {
 public:
-    int findKthLargest(vector<int>& nums, int k) {
-        for(int i=k/2-1;i>=0;--i){
-            percDown(nums,i,k);
-        }
-        for(int i=k;i<nums.size();++i){
-            if(nums[i]>nums[0]){
-                nums[0] = nums[i];
-                percDown(nums,0,k);
+    int numSquares(int n) {
+        vector<int> dp(n+1,INT_MAX);
+        int i=1;
+        dp[1] = 1;
+        dp[0] = 0;
+        for(int i=1;i<=n;++i){
+            for(int j=1;j*j<=i;++j){
+                dp[i] = min(dp[i],dp[i-j*j]+1);
             }
         }
-        return nums[0];
-    }
-    
-    void percDown(vector<int>& nums,int i,int N){
-        int parent,child;
-        int temp = nums[i];
-        for(parent=i;parent*2+1<N;parent=child){
-            child = parent*2+1;
-            if(child!=N-1&&nums[child]>nums[child+1])
-                child += 1;
-            if(temp<=nums[child])
-                break;
-            else
-                nums[parent] = nums[child];
-        }
-        swap(nums[parent],temp);
+        return dp[n];
     }
 };
 
 int main(){
-    vector<int> nums{5,2,4,1,3,6,0};
     Solution s;
-    cout<<s.findKthLargest(nums,4);
+    cout<<s.numSquares(13);
 }
