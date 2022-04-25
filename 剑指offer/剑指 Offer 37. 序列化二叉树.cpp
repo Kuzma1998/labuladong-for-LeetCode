@@ -12,77 +12,94 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
 class Codec {
-private:
-    string data;
-    vector<string> vec;
+vector<string> vec;
 public:
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
+        string ans = "";
         if(!root)
-            return "";
+            return ans;
         queue<TreeNode*> q;
         q.push(root);
         while(!q.empty()){
             TreeNode* node = q.front();
             q.pop();
-            if(node){
-                data += to_string(node->val)+",";
-            }else{
-                data += "#,";
+            if(!node){
+                ans += "#,";
                 continue;
+            }else {
+                ans+= to_string(node->val)+",";
             }
             q.push(node->left);
             q.push(node->right);
         }
-        data.pop_back();// 删除逗号
-        return data;
+        ans.pop_back();
+        return ans;
     }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
         if(data.size()==0)
-            return NULL;
-        deleteSep();
-        return buildTree();
+            return nullptr;
+        str2char(data);
+        return BT();
     }
-    TreeNode* buildTree(){
+    void str2char(string& data){
+        int pre = 0;
+        for(int i=0;i<=data.size();++i){
+            if(data[i]==','||i==data.size()){
+                vec.push_back(data.substr(pre,i-pre));
+                pre =i+1;
+            }
+        }
+    }
+    TreeNode* BT(){
         if(vec.size()==0)
-            return NULL;
+            return nullptr;
         TreeNode* root = new TreeNode(stoi(vec[0]));
         queue<TreeNode*> q;
         q.push(root);
         for(int i=1;i<vec.size();){
             TreeNode* node = q.front();
             q.pop();
-            if(!node)
-                continue;
-            string left = vec[i++];
-            if(left=="#")
-                node->left =NULL;
-            else
-                node->left = new TreeNode(stoi(left));
-            q.push(node->left);
-            string right = vec[i++];
-            if(right=="#")
-                node->right =NULL;
-            else
-                node->right = new TreeNode(stoi(right));
-            q.push(node->right);
+            // if(!node)
+            //     continue;
+            if(vec[i]=="#"){
+               node->left = nullptr;
+               ++i;
+            }else 
+                node->left = new TreeNode(stoi(vec[i++]));
+            if(i>=vec.size()) break;
+            if(vec[i]=="#"){
+                node->right = nullptr;
+                ++i;
+            }
+            else{
+                node->right = new TreeNode(stoi(vec[i++]));
+            }
+            if(node->left)
+                q.push(node->left);
+            if(node->right)
+                q.push(node->right); 
         }
         return root;
-
-    }
-    void deleteSep(){
-        int pre = 0;
-        for(int i=0;i<=data.size();i++){// 只有这样才能保留负数或者多位数
-            if(data[i]==','||i==data.size()){
-                vec.push_back(data.substr(pre,i-pre));// 起始位置取len个
-                pre = i+1;
-            }
-        }
     }
 };
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
 
 // Your Codec object will be instantiated and called as such:
 // Codec codec;
