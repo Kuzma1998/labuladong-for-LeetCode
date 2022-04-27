@@ -647,23 +647,294 @@ using namespace std;
 // }
 
 
+// class Solution {
+// public:
+//     int numSquares(int n) {
+//         vector<int> dp(n+1,INT_MAX);
+//         int i=1;
+//         dp[1] = 1;
+//         dp[0] = 0;
+//         for(int i=1;i<=n;++i){
+//             for(int j=1;j*j<=i;++j){
+//                 dp[i] = min(dp[i],dp[i-j*j]+1);
+//             }
+//         }
+//         return dp[n];
+//     }
+// };
+
+// int main(){
+//     Solution s;
+//     cout<<s.numSquares(13);
+// }
+
+// class Solution {
+// public:
+//     string decodeString(string s) {
+//         stack<int> number;
+//         stack<string> str;
+//         int num = 0;
+//         string res;
+//         for(int i=0;i<s.size();++i){
+//             if(s[i]-'0'>=0&&s[i]-'0'<=9){
+//                 num += 10*num+s[i]-'0';
+//             }
+//             if(s[i]=='['){
+//                 number.push(num);
+//                 num = 0;
+//                 str.push(res);
+//                 res = "";
+//             }
+//             if(s[i]==']'){
+//                 if(res==str.pop())
+//                     res= 
+//                 string temp = res;
+//                 int times = number.top();
+//                 number.pop();
+//                 string top = str.top();
+//                 str.pop();
+//                 while(times--){
+//                     top += temp;
+//                 }
+//                 str.push(top);
+//                 res = str.top();
+//             }
+//             if((s[i]>='a'&&s[i]<='z')||(s[i]>='A'&&s[i]<='Z')){
+//                 res += s[i];
+//             }
+//         }
+//         return res;
+//     }
+// };
+
+// int main(){
+//     Solution solver;
+//     string s = "3[a2[c]]";
+//     cout<<solver.decodeString(s)<<endl;
+// }
+
+
+// class Solution {
+// vector<vector<int>> ans;
+// vector<int> path;
+// public:
+//     int coinChange(vector<int>& coins, int amount) {
+//         sort(coins.begin(),coins.end(),[](int a,int b){return a>b;});
+//         int sz = INT_MAX;
+//         dfs(coins,amount,0);
+//         for(auto elem:ans){
+//             int tmp = elem.size();
+//             sz = min(sz,tmp);
+//         }
+//         return sz;
+//     }
+//     void dfs(vector<int>& coins, int amount,int index){
+//         if(amount==0){
+//             ans.push_back(path);
+//         }
+//         for(int i=index;i<coins.size();++i){
+//             if(amount-coins[i]<0)
+//                 continue;
+//             if(i!=0&&coins[i]==coins[i-1])
+//                 continue;
+//             path.push_back(coins[i]);
+//             dfs(coins,amount-coins[i],i);
+//             path.pop_back();
+//         }
+//     }
+// };
+
+// int main(){
+//     vector<int> coins = {1,2,5};
+//     int  amount = 100;
+//     Solution solver;
+//     cout<<solver.coinChange(coins,amount);
+// }
+
+
+// class Solution {
+// public:
+//     vector<int> topKFrequent(vector<int>& nums, int k) {
+//         unordered_map<int,pair<int,int>> mp;
+//         for(auto num:nums){
+//             mp[num].first = num;
+//             mp[num].second++;
+//         }
+//         vector<pair<int,int>> hash;
+//         vector<int> ans;
+//         for(auto elem:mp){
+//             hash.push_back(elem.second);
+//         }
+//         sort(hash.begin(),hash.end(),[](pair<int,int> a,pair<int,int>b){return a.second>b.second;});
+//         for(int i=0;i<k;++i){
+//             ans.push_back(hash[i].first);
+//         }
+//         return ans;
+//     }
+// };
+
+// int main(){
+//     Solution solver;
+//     vector<int> nums{1,1,1,2,2,3};
+//     solver.topKFrequent(nums,2);
+// }
+
+// class Solution {
+// public:
+//     vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+//         vector<vector<int>> sorted(people.begin(),people.end());
+//         sort(sorted.begin(),sorted.end(),[](vector<int> a,vector<int> b){
+//             if(a[0]==b[0])
+//                 return a[1]<b[1];
+//             return a[0]>b[0];
+//         });
+//         vector<vector<int>> ans;
+//         for(auto person:sorted){
+//             ans.insert(ans.begin()+person[1],person);
+//         }
+//         return ans;
+//     }
+// };
+
+// int main(){
+//    Solution s;
+//    vector<vector<int>> people{{7,0},{4,4},{7,1},{5,0},{6,1},{5,2}};
+//    s.reconstructQueue(people);
+// }
+
+// class Solution {
+// public:
+//     vector<int> findAnagrams(string s, string p) {
+//         if(s.size()<p.size())
+//             return {};
+//         unordered_map<char,int> mp;
+        
+//         for(auto c:p){
+//             mp[c]++;
+//         }
+//         int l=0,r=0;
+//         vector<int> ans;
+//         for(;r<s.size();++r){
+//             unordered_map<char,int> mp2;
+//             char c = s[r];
+//             int sz = 0;
+//             int cnt = 0;
+//             while(mp.find(c)!=mp.end()&&sz<p.size()){
+//                 mp2[c]++;
+//                 if(mp2[c]==mp[c]){
+//                     ++cnt;
+//                 }
+//                 if(cnt==mp.size())
+//                     ans.push_back(r);
+//                 sz++;
+//                 c = s[r+sz];
+
+//             }
+//         }
+//         return ans;
+//     }
+// };
+
+// class Solution {
+// public:
+//     vector<int> findAnagrams(string s, string p) {
+//         if(s.size()<p.size())
+//             return {};
+//         unordered_map<char,int> mp;
+//         for(auto c:p){
+//             mp[c]++;
+//         }
+//         vector<int> ans;
+//         bool flag = false;
+//         unordered_map<char,int> mp2;
+//         for(int r=0;r<s.size();){
+//             char c = s[r];
+//             int sz = 0;
+//             int cnt = 0;
+//             if(flag){
+//                 char last = s[r-p.size()];
+//                 mp2[last]--;
+//                 if(mp2[last]==0)
+//                     mp2.erase(last);
+//                 mp2[c]++;
+//                 if(mp==mp2)
+//                     ans.push_back(r-p.size()+1);
+//             }
+//             while(mp.find(c)!=mp.end()&&sz<p.size()&&!flag){
+//                 mp2[c]++;
+//                 if(mp2[c]==mp[c]){
+//                     ++cnt;
+//                 }
+//                 if(cnt==mp.size()){
+//                     ans.push_back(r);
+//                     flag = true;
+//                     r+=sz;
+//                 }
+//                 sz++;
+//                 c = s[r+sz];
+//             }
+//             ++r;
+//         }
+//         return ans;
+//     }
+// };
+
+
+// int main(){
+//     string s = "cbaebabacd";
+//     string p = "abc";
+//     Solution solver;
+//     solver.findAnagrams(s,p);
+// }
+
+
+// class Solution {
+// public:
+//     vector<int> findDisappearedNumbers(vector<int>& nums) {
+//         int n = nums.size();
+//         for (auto& num : nums) {
+//             int x = (num - 1) % n;
+//             nums[x] += n;
+//         }
+//         vector<int> ret;
+//         for (int i = 0; i < n; i++) {
+//             if (nums[i] <= n) {
+//                 ret.push_back(i + 1);
+//             }
+//         }
+//         return ret;
+//     }
+// };
+
+
+// int main(){
+//     // vector<int> nums{4,3,2,7,8,2,3,1};
+//     vector<int> nums{1,3,2,5,5};
+//     Solution s;
+//     s.findDisappearedNumbers(nums);
+// }
+
+
 class Solution {
 public:
-    int numSquares(int n) {
-        vector<int> dp(n+1,INT_MAX);
-        int i=1;
-        dp[1] = 1;
-        dp[0] = 0;
-        for(int i=1;i<=n;++i){
-            for(int j=1;j*j<=i;++j){
-                dp[i] = min(dp[i],dp[i-j*j]+1);
+    int hammingDistance(int x, int y) {
+        int max_num = max(x,y);
+        int min_num = min(x,y);
+        int ans = 0;
+        while(max_num){
+            if((max_num&1)!=(min_num&1)){
+                ++ans;
             }
+            max_num = max_num>>1;
+            min_num = min_num>>1;
         }
-        return dp[n];
+        return ans;
     }
 };
 
 int main(){
+    int x = 1;
+    int y = 4;
     Solution s;
-    cout<<s.numSquares(13);
+    s.hammingDistance(x,y);
 }

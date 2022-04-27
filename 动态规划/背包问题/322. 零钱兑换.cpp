@@ -50,7 +50,6 @@ public:
         }
         return (ans[amount]==amount+1)?-1:ans[amount];
     }
-
 };
 
 
