@@ -34,18 +34,20 @@ public:
 // 前缀和
 
 class Solution {
+int ans = 0;
 public:
     int subarraySum(vector<int>& nums, int k) {
-        int cnt = 0, sum =0;
-        int sz = nums.size();
-        unordered_map<int,int> map;
-        map[0] = 1;
-        for(int i=0;i<sz;++i){
-            sum+= nums[i];
-            if(map.find(sum-k)!=map.end())
-                cnt += map[sum-k];
-            map[sum]++;
+        unordered_map<int,int> mp;
+        mp[0] = 1;// -1项的前缀和为0，一次
+        int prefixSum=0;
+        for(int i=0;i<nums.size();++i){
+            prefixSum+=nums[i];
+            if(mp.find(prefixSum-k)!=mp.end()){
+                ans+=mp[prefixSum-k];
+            }
+            mp[prefixSum]++;
         }
-        return cnt;
+        return ans;
     }
 };
+

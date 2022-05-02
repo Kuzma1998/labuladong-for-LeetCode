@@ -915,26 +915,53 @@ using namespace std;
 // }
 
 
+// class Solution {
+// public:
+//     int hammingDistance(int x, int y) {
+//         int max_num = max(x,y);
+//         int min_num = min(x,y);
+//         int ans = 0;
+//         while(max_num){
+//             if((max_num&1)!=(min_num&1)){
+//                 ++ans;
+//             }
+//             max_num = max_num>>1;
+//             min_num = min_num>>1;
+//         }
+//         return ans;
+//     }
+// };
+
+// int main(){
+//     int x = 1;
+//     int y = 4;
+//     Solution s;
+//     s.hammingDistance(x,y);
+// }
+
+
 class Solution {
+int ans = 0;
 public:
-    int hammingDistance(int x, int y) {
-        int max_num = max(x,y);
-        int min_num = min(x,y);
-        int ans = 0;
-        while(max_num){
-            if((max_num&1)!=(min_num&1)){
-                ++ans;
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int,int> mp;
+        mp[0] = 1;
+        int prefixSum=0;
+        for(int i=0;i<nums.size();++i){
+            prefixSum+=nums[i];
+            if(mp.find(prefixSum-k)!=mp.end()){
+                ans+=mp[prefixSum-k];
             }
-            max_num = max_num>>1;
-            min_num = min_num>>1;
+            mp[prefixSum]++;
         }
         return ans;
     }
 };
 
+
 int main(){
-    int x = 1;
-    int y = 4;
+    vector<int> ans{-1,1,0};
+    int k=0;
     Solution s;
-    s.hammingDistance(x,y);
+    cout<<s.subarraySum(ans,k);
 }
