@@ -940,28 +940,62 @@ using namespace std;
 // }
 
 
+// class Solution {
+// int ans = 0;
+// public:
+//     int subarraySum(vector<int>& nums, int k) {
+//         unordered_map<int,int> mp;
+//         mp[0] = 1;
+//         int prefixSum=0;
+//         for(int i=0;i<nums.size();++i){
+//             prefixSum+=nums[i];
+//             if(mp.find(prefixSum-k)!=mp.end()){
+//                 ans+=mp[prefixSum-k];
+//             }
+//             mp[prefixSum]++;
+//         }
+//         return ans;
+//     }
+// };
+
+
+// int main(){
+//     vector<int> ans{-1,1,0};
+//     int k=0;
+//     Solution s;
+//     cout<<s.subarraySum(ans,k);
+// }
+
+
 class Solution {
-int ans = 0;
 public:
-    int subarraySum(vector<int>& nums, int k) {
-        unordered_map<int,int> mp;
-        mp[0] = 1;
-        int prefixSum=0;
-        for(int i=0;i<nums.size();++i){
-            prefixSum+=nums[i];
-            if(mp.find(prefixSum-k)!=mp.end()){
-                ans+=mp[prefixSum-k];
-            }
-            mp[prefixSum]++;
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        int m = obstacleGrid.size(),n = obstacleGrid[0].size();
+        vector<vector<int>> dp(m,vector<int>(n,0));
+        for(int i=0;i<m;++i){
+            if(obstacleGrid[i][0]==1)
+                break;
+            dp[i][0]=1;
         }
-        return ans;
+        for(int j=0;j<n;++j){
+            if(obstacleGrid[0][j]==1)
+                break;
+            dp[0][j]=1;
+        }
+        for(int i=1;i<m;++i){
+            for(int j=1;j<n;++j){
+                if(obstacleGrid[i][j]==1)
+                    continue;
+                dp[i][j] = dp[i-1][j]+dp[i][j-1];
+            }
+        }
+        return dp[m-1][n-1];
     }
 };
 
 
 int main(){
-    vector<int> ans{-1,1,0};
-    int k=0;
+    vector<vector<int>> obstacleGrid = {{0,0,0},{0,1,0},{0,0,0}};
     Solution s;
-    cout<<s.subarraySum(ans,k);
+    s.uniquePathsWithObstacles(obstacleGrid);
 }
