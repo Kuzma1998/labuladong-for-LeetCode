@@ -35,3 +35,42 @@ public:
         return map[head]; // 返回head->next这条线
     }
 };
+
+
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        unordered_map<Node*,Node*> memo;
+        Node* node = head;
+        // 哈希表记录
+        while(node){
+            // key为原始链表的节点  val为以当前节点值新建的节点
+            memo[node] = new Node(node->val);  
+            node = node->next;
+        }
+        node = head;
+        while(node){
+            //新建的节点指向其随机和next节点
+            memo[node]->next = memo[node->next];
+            memo[node]->random = memo[node->random];
+            node = node->next;
+        }
+        return memo[head];
+    }
+};

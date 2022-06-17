@@ -92,3 +92,48 @@ public:
         return last;
     }
 };
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        stack<int> s1;
+        stack<int> s2;
+        while(l1||l2){  // l1 l2 入栈
+            if(l1){
+                s1.push(l1->val);
+                l1 = l1->next;
+            }
+            if(l2){
+                s2.push(l2->val);
+                l2 = l2->next;
+            }
+        }
+        int flag = 0; //进位
+        stack<int> ans;  //保存结果的栈
+        while(!s1.empty()&&!s2.empty()){      
+            ans.push((s1.top()+s2.top()+flag)%10);
+            flag = (s1.top()+s2.top()+flag)/10;
+            s1.pop();
+            s2.pop();
+        }
+        while(!s1.empty()){
+            ans.push((s1.top()+flag)%10);
+            flag = (s1.top()+flag)/10;
+            s1.pop();
+        }
+        while(!s2.empty()){
+            ans.push((s2.top()+flag)%10);
+            flag = (s2.top()+flag)/10;
+            s2.pop();
+        }
+        if(flag) ans.push(flag);  //最后如果进位为1  要加入栈
+        ListNode* ret =  new ListNode(0);
+        ListNode* node = ret;
+        while(!ans.empty()){
+            node->next = new ListNode(ans.top());
+            node = node->next;
+            ans.pop();
+        }
+        return ret->next;
+    }
+};

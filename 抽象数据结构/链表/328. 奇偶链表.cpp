@@ -23,9 +23,9 @@ public:
         ListNode* even = head->next;
         ListNode* even_head = even;// 后面要将head与偶节点相连
         while(even&&even->next){
-            odd->next = even->next;
+            odd->next = even->next; // 奇数节点移动两次
             odd = odd->next;
-            even->next = odd->next;
+            even->next = odd->next; // 偶数节点移动两次
             even = even->next;
         }
         odd->next = even_head;

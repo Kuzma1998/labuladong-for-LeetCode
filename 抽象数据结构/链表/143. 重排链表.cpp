@@ -30,18 +30,18 @@ public:
         ListNode *new_node = head;
         // new_node->next = head;
         for(int start=1,end = v.size()-1;start<=end;++start,--end){
-            if(start<end){
+            if(start<end){  //重排
             new_node->next = v[end];
             new_node = new_node->next;
             new_node->next = v[start];
             new_node = new_node->next;
-            }else{
+            }else{   //指向最后一个节点
                 new_node->next = v[start];
                 new_node= new_node->next;
                 break;
             }
         }
-        new_node->next = nullptr;
+        new_node->next = nullptr;  //最后一个节点指向null
         return;
     }
 };
