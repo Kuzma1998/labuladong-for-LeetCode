@@ -23,26 +23,18 @@ struct TreeNode
 
 
 class Solution {
-private:
-    vector<string> paths;
+vector<string> ans;
 public:
     vector<string> binaryTreePaths(TreeNode* root) {
-        string path;
-        construct(root,path);
-        return paths;
-       
+        dfs(root,"");
+        return ans;
     }
-    void construct(TreeNode* root, string path){
-        if(root!=nullptr){
-            path += to_string(root->val);
-            if(root->left==nullptr&&root->right==nullptr){
-                paths.push_back(path);
-            }
-            else{
-                path += "->";
-                construct(root->left,path);
-                construct(root->right,path);
-                };
-        }   
+    void dfs(TreeNode* root, string s){
+        if(!root) // 空节点
+            return;
+        if(!root->left&&!root->right)  // 叶子节点
+            ans.push_back(s+to_string(root->val));
+        dfs(root->left,s+to_string(root->val)+"->"); // 递归
+        dfs(root->right,s+to_string(root->val)+"->");
     }
 };

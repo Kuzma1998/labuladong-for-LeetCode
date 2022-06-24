@@ -47,3 +47,24 @@ public:
     }
 
 };
+
+
+class Solution {
+    int ans = 1000001;
+public:
+    int minDepth(TreeNode* root) {
+        if(!root) return 0;
+        dg(root,1);
+        return ans;
+    }
+    // 递归 当到叶子节点算一下长度 前中后序遍历都可
+    void dg(TreeNode* root,int depth){
+        if(root&&!root->left&&!root->right){
+            ans = min(depth,ans);
+        }
+        if(!root) return;
+        dg(root->left,depth+1);
+        dg(root->right,depth+1);
+    }
+    
+};
