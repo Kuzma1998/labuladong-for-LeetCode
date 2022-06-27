@@ -38,3 +38,30 @@ public:
         dfs(root->right,s+to_string(root->val)+"->");
     }
 };
+
+// 递归  维护两个全局变量
+class Solution {
+private:
+    int depth = 0;
+    int ans = 0;
+public:
+    int findBottomLeftValue(TreeNode* root) {
+        ans = root->val;
+        dg(root,0);
+        return ans;
+    }
+    void dg(TreeNode* root, int l){
+        if(!root) return;
+        if(!root->left&&!root->right){
+            if(depth<l)  //当前最深小于某次遍历的l 更新结果
+            {
+            depth = l;
+            ans = root->val;
+            }
+            return;
+        }
+        dg(root->left,l+1);  // 先要遍历左边，就会更新depth进而屏蔽掉右边的取值
+        dg(root->right,l+1);
+        return;
+    }
+};

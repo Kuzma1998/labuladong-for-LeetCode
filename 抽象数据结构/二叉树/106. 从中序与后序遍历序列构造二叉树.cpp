@@ -41,3 +41,29 @@ public:
         return root;
     }
 };
+
+// twice
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        TreeNode* ans = construct(inorder,0,inorder.size()-1,postorder,0,inorder.size()-1);
+        return ans;
+    }
+    TreeNode* construct(vector<int>& inorder,int instart,int inend,vector<int>& postorder,int pstart,int pend){
+        if(instart>inend||pstart>pend)
+            return nullptr;
+        int rootVal =  postorder[pend]; // 根节点的值
+        TreeNode* root = new TreeNode(rootVal); 
+        int left_index = instart; // 在中序遍历的数组里面找到当前根节点的坐标
+        for(;left_index < inorder.size(); ++left_index){
+            if(inorder[left_index]==rootVal)
+                break;
+        }
+        int left_Tree_Length = left_index - instart; //左子树长度
+        // 递归建左子树    最左 到根节点前一个   pstart到pstart+左子树长度
+        root->left = construct(inorder,instart,left_index-1,postorder,pstart,pstart+left_Tree_Length-1);
+        // 递归建立右子树  根节点下一个到最右
+        root->right = construct(inorder,left_index+1,inend,postorder,pstart+left_Tree_Length,pend-1);
+        return root;
+    }
+};

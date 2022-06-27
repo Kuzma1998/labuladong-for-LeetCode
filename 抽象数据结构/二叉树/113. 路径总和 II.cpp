@@ -39,3 +39,31 @@ public:
 // 其中 N是树的节点数。在最坏情况下，树的上半部分为链状，下半部分为完全二叉树，并且从根节点到每一个叶子节点的路径都符合题目要求。
 // 此时，
 // 空间复杂度：O(N)O，其中 N 是树的节点数。空间复杂度主要取决于栈空间的开销，栈中的元素个数不会超过树的节点数。
+
+
+
+class Solution {
+    vector<vector<int>> ans;
+    vector<int> path;
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        dfs(root,targetSum);
+        return ans;
+    }
+    void dfs(TreeNode* root, int targetSum){
+        if(!root) return; //节点为空 返回
+        if(!root->right&&!root->left){ //叶子节点  判断
+            if(targetSum==root->val){
+                path.push_back(root->val);
+                ans.push_back(path); //撤销
+                path.pop_back();
+            }
+            return;
+        }
+        // 回溯  先push在pop
+        path.push_back(root->val);
+        dfs(root->left,targetSum-root->val);
+        dfs(root->right,targetSum-root->val);
+        path.pop_back();
+    }
+};

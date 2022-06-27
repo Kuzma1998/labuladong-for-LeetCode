@@ -19,7 +19,6 @@ struct TreeNode
 
 //思路，递归。从根节点到叶子节点的值等于target，等价于从根节点的左右结点往下到叶节点 的值等于target-root->val;如此递归即可
 //到叶节点，判断是不是相等即可
-//递归就是dfs
 class Solution {
 public:
     bool dp(TreeNode* root,int targetSum){
