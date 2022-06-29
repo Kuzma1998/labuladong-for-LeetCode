@@ -12,21 +12,25 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+// 后续遍历
 class Solution {
-private:
-    int sum=0;
+    int pre = 10001;
 public:
     TreeNode* convertBST(TreeNode* root) {
-        inorder(root);
+        postorder(root);
         return root;
     }
-    void inorder(TreeNode* root){
-        if(!root)
-            return;
-        inorder(root->right);
-        sum = sum+root->val; 
-        root->val = sum;
-        inorder(root->left);
-        return;
+    // 后序遍历即可
+    void postorder(TreeNode* root){
+        if(!root) return;
+        postorder(root->right);
+        if(pre==10001)  //最边的节点  直接把pre变成根节点的值 不需要操作
+            pre = root->val;
+        else{
+            root->val += pre; //更新根节点和pre
+            pre = root->val;
+        }
+        postorder(root->left);
     }
 };

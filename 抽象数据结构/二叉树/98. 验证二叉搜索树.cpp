@@ -23,6 +23,29 @@ struct TreeNode
 };
 
 class Solution {
+    long last_val = LONG_MIN; //保存中序遍历的前一个值
+    bool flag = true; //结果
+public:
+    bool isValidBST(TreeNode* root) {
+
+        inorder(root);
+        return flag;
+    }
+    void inorder(TreeNode* root){
+        if(!root)
+            return;
+        inorder(root->left);  //中序遍历 如果前一个大于当前结点的值 flag置为错
+        if(root->val>last_val){
+            last_val = root->val;
+        }else{
+            flag = false;
+        }
+        inorder(root->right);
+    }
+};
+
+
+class Solution {
 private:
     long long pre = LONG_MIN; //最小值
 public:
