@@ -46,3 +46,44 @@ public:
         return root;
     }   
 };
+
+
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(!root)
+            return nullptr;
+        return Delete(root,key);
+    }
+
+    TreeNode* Delete(TreeNode* root,int key){
+        if(!root)
+            return root;
+        // root->val > key的值  删除右边
+        if(root->val>key){
+            root->left = Delete(root->left,key);
+        // root->val < key的值  删除左边
+        }else if(root->val<key)
+            root->right = Delete(root->right,key);
+        // root->val = key  删除此节点
+        else if(root->val==key){
+            if(!root->right&&!root->left){  // 被删除的节点  无左右子树
+                return nullptr;
+            }else if(!root->right&&root->left){  //  被删除的节点 只有左子树
+                return root->left;  
+            }else if(!root->left&&root->left){  //  被删除的节点 只有右子树
+                return root->right;
+            }else{
+                TreeNode* cur = root->right;  //把左子树插入右子树的最左边
+                TreeNode* pre;
+                while(cur){
+                    pre = cur;
+                    cur = cur->left;
+                }
+                pre->left = root->left;
+            }
+            return root->right;
+        }
+        return root;
+    }
+};

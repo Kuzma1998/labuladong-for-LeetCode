@@ -1,18 +1,34 @@
-// 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
-//后序遍历，看p或者q是不是在左子树或者右子树，若在两边，返回root，若都在左或者都在右，则返会左或者右
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: Li Jiaxin
+ * @Date: 2021-09-06 17:09:10
+ * @LastEditors: Li Jiaxin
+ * @LastEditTime: 2021-09-06 17:12:28
+ */
 
+// 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+// 思路  递归，
 
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if(!root) //root不存在 返回nullptr
+        // 递归终止条件
+        if(!root)
+            return nullptr;
+        if(root==p||root==q)  // p或者q有一个和root相等，返回root
             return root;
-        if(root==p||root==q) //root等于p,q之一
+
+        // 左右子树寻找
+        TreeNode* left = lowestCommonAncestor(root->left,p,q);
+        TreeNode* right = lowestCommonAncestor(root->right,p,q);
+        // 左右子树都找到了p或者q,那么根节点肯定时最近公共祖先
+        if(left&&right)
             return root;
-        TreeNode* left = lowestCommonAncestor(root->left,p,q);  //去左子树寻找
-        TreeNode* right = lowestCommonAncestor(root->right,p,q); // 去右子树寻找
-        if(left&&right)  //左右都找到了 说明要返回根节点
-            return root;
-        return left?left:right; //否则返回left或者right
+        // 都没找到返回null
+        if(!left&&!right)
+            return nullptr;
+        // 找到一个，找到的这个肯定时最小公共祖先，假设左边找到了p，右边没找到，那么q肯定在左子树，那么公共祖先就是left
+        return left==nullptr?right:left;
     }
 };
