@@ -40,3 +40,52 @@ public:
         return ans;
     }
 };
+
+// 哈希表
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> ans;
+        int l1 = s.size(),l2=p.size();
+        if(l1<l2)
+            return ans;
+        unordered_map<char,int> memo;
+        unordered_map<char,int> expected;
+        // 记录p的字符出现的次数
+        for(auto c:p)
+            memo[c]++;
+        int count = 0;
+        int i = 0;
+        // 遍历s前p.size()个
+        for(;i<p.size();++i){
+            char c = s[i];
+            expected[c]++;
+            // 每当 有一个字符次数和memo里面的相同 递增count
+            if(memo.find(c)!=memo.end()&&memo[c]==expected[c])
+                ++count;
+        }
+        // 
+        if(count==memo.size()) ans.push_back(i-p.size());
+        // 遍历后面的
+        for(;i<s.size();++i){
+            // 待删除的字符
+            char last = s[i-p.size()];
+            expected[last]--;
+            if(expected[last]==0)
+                expected.erase(last);
+                // 当第一次出现不同的时候，递减count
+            if(memo.find(last)!=memo.end()&&expected[last]+1==memo[last]){
+                --count;
+            }
+            // 待加入的字符
+            char c = s[i];
+            expected[c]++;
+            //再次相等，count递增
+            if(memo.find(c)!=memo.end()&&expected[c]==memo[c]){
+                ++count;
+            }
+            if(count==memo.size())  ans.push_back(i-p.size()+1);
+        }
+        return ans;
+    }
+};

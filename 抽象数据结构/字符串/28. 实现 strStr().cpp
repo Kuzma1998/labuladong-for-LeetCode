@@ -61,7 +61,7 @@ public:
         int j=0;//模式串的索引
         for (int i = 0; i < haystack.size(); i++) {
             while(j > 0 && haystack[i] != needle[j]) {
-                j = next[j - 1];
+                j = next[j - 1]; // 回溯直到相等，下次匹配从needle的j开始，j之前的已经和haystack一定是相同的
             }
             if (haystack[i] == needle[j]) {
                 j++;
@@ -73,12 +73,12 @@ public:
         return -1;
     }
     void getNext(int* next,string needle){
-        int i;// 后缀起始位置
+        int i;// 后缀起始位置 (结束？)
         int j=0;// 前缀起始位置，也代表以i结尾的字符串的最大相等前后缀的长度
         next[0] =j;
         for(i =1;i<needle.size();++i){
             while(j>0&&needle[i]!=needle[j]){
-                j = next[j-1];//不相等就一直回溯到 相等的位置
+                j = next[j-1];//不相等就一直回溯到 相等的位置  next[i] 表示 i（包括i）之前最长相等的前后缀长度（其实就是j）
             }
             if(needle[i]==needle[j])
                 ++j;
