@@ -95,3 +95,30 @@ public:
         return result;
     }
 };
+
+
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        vector<int> ans;
+        deque<pair<int,int>> q; // 双向队列
+        for(int i=0;i<k;++i){
+            while(!q.empty()&&nums[i]>=q.back().first){ // 若当前元素大于大于队列尾部元素，则一直弹出
+                q.pop_back();
+            }
+            q.push_back({nums[i],i}); // 这个元素应该在的位置
+        }
+        ans.push_back(q.front().first);
+        for(int i=k;i<nums.size();++i){
+            if(i-k==q.front().second){  // 如果索引i-k是队列最大的元素，则应该先弹出
+                q.pop_front();
+            }
+            while(!q.empty()&&nums[i]>=q.back().first){ // 若当前元素大于大于队列尾部元素，则一直弹出
+                q.pop_back();
+            }
+            q.push_back({nums[i],i}); // 这个元素应该在的位置
+            ans.push_back(q.front().first);
+        }
+        return ans;
+    }
+};
