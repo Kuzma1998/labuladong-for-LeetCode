@@ -1,60 +1,43 @@
-/*
- * @Description: 
- * @code: 
- * @Author: Li Jiaxin
- * @Date: 2021-12-24 16:33:54
- */
-
 
 
 class Solution {
 private:
-    vector<string> result;// 记录结果
-    // startIndex: 搜索的起始位置，pointNum:添加逗点的数量
-    void backtracking(string& s, int startIndex, int pointNum) {
-        if (pointNum == 3) { // 逗点数量为3时，分隔结束
-            // 判断第四段子字符串是否合法，如果合法就放进result中
-            if (isValid(s, startIndex, s.size() - 1)) {
-                result.push_back(s);
-            }
+    vector<string> results; 
+public:
+    vector<string> restoreIpAddresses(string s) {
+        backtrack(s, 0, 0);
+        return results;
+    }
+
+    void backtrack(string s,int index,int times){
+        if(times==3){ // 最多插入三次
+            if(index<s.size()&&isValidNumber(s.substr(index))) // 最后一部分是否合法
+                results.push_back(s);
             return;
         }
-        for (int i = startIndex; i < startIndex+3; i++) {
-            if (isValid(s, startIndex, i)) { // 判断 [startIndex,i] 这个区间的子串是否合法
-                s.insert(s.begin() + i + 1 , '.');  // 在i的后面插入一个逗点
-                pointNum++;
-                backtracking(s, i + 2, pointNum);   // 插入逗点之后下一个子串的起始位置为i+2
-                pointNum--;                         // 回溯
-                s.erase(s.begin() + i + 1);         // 回溯删掉逗点
-            } else break; // 不合法，直接结束本层循环
+        for(int i=index;i<s.size();++i){
+            string str = s.substr(index,i-index+1); //位置i合法
+            if(isValidNumber(str)){
+                s.insert(i+1, ".");  // i后面插入一个点 相当于i+1前面插入一个
+                backtrack(s, i+2, times+1);
+                s.erase(s.begin()+i+1); //删除i位置的点
+            } 
         }
     }
-    // 判断字符串s在左闭又闭区间[start, end]所组成的数字是否合法
-    bool isValid(const string& s, int start, int end) {
-        if (start > end) {
+
+    bool isValidNumber(string s){
+        int length = s.size();
+        if(s[0]=='0'&&length>1)  // 不含前导0
             return false;
-        }
-        if (s[start] == '0' && start != end) { // 0开头的数字不合法
-                return false;
-        }
         int num = 0;
-        for (int i = start; i <= end; i++) {
-            if (s[i] > '9' || s[i] < '0') { // 遇到非数字字符不合法
+        for(int i=0;i<length;++i){
+            if(s[i]<'0'||s[i]>'9'){
                 return false;
+            }else{
+                num =  num*10+s[i]-'0';
             }
-            num = num * 10 + (s[i] - '0');
-            if (num > 255) { // 如果大于255了不合法
-                return false;
-            }
+            if(num>255) return false;
         }
         return true;
     }
-public:
-    vector<string> restoreIpAddresses(string s) {
-        result.clear();
-        // if (s.size() > 12) return result; // 算是剪枝了
-        backtracking(s, 0, 0);
-        return result;
-    }
 };
-

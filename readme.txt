@@ -17,3 +17,11 @@ s.substr(0,i)+s.substr(i+1)
 is_sorted(v.begin(),v.end());//默认升序检查
 
 is_sorted(v.begin(),v.end(),greater<int>());//降序检查
+
+
+s.insert(i+1, "abc");  // i后面插入一个字符串 相当于i+1前面插入一个
+                
+s.erase(s.begin()+i+1); //删除i位置的点
+string.erase(pos,n);  删除从pos开始的n个字符    
+string.erase(0,1);   删除第一个字符
+string.erase(first,last)    //删除从first到last中间的字符（first和last都是string类型的迭代器）
