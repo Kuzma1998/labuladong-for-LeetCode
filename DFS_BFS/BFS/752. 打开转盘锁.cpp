@@ -69,4 +69,83 @@ public:
     }
 };
 
+
+
+class Solution {
+public:
+    int openLock(vector<string>& deadends, string target) {
+        unordered_set<string> memo;
+        for(auto deadend:deadends){
+            memo.insert(deadend);
+        }
+        // 0000在deadends里面
+        if(memo.find("0000")!=memo.end()){
+            return -1;
+        }
+        // 0000就是target
+        if("0000"==target)
+            return 0;
+        int ans = 0;
+        queue<string> q;
+        q.push("0000");
+        unordered_set<string> travermemo;
+        travermemo.insert("0000");
+
+        while(!q.empty()){
+            ++ans;
+            // 遍历队列当前的个数的字符串
+            int size = q.size();
+            while(size--){
+                string str = q.front();
+                q.pop();
+                // 遍历四位
+                for(int i=0;i<4;++i){
+                    vector<string> substrs = change(str, i);
+                    // 每一位分别加减
+                    for(int j=0;j<2;++j){
+                        string tmp = substrs[j];
+                        // 相等 退出
+                        if(tmp==target){
+                            return ans;
+                        // 如果是死锁里面的  不加入
+                        }else if(memo.find(tmp)!=memo.end()){
+                            continue;
+                        // 如果是加入过队列的 不加入
+                        }else if(travermemo.find(tmp)==travermemo.end()){
+                            travermemo.insert(tmp);
+                            q.push(tmp);
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
+    vector<string> change(string str,int i){
+        vector<string> substrs;
+        string tmp = str;
+        if(str[i]=='0'){
+            tmp[i] ='9';
+            substrs.push_back(tmp);
+            tmp = str;
+            tmp[i]=tmp[i]+1;
+            substrs.push_back(tmp);
+        }else if(str[i]=='9'){
+            tmp[i] ='0';
+            substrs.push_back(tmp);
+            tmp = str;
+            tmp[i]=tmp[i]-1;
+            substrs.push_back(tmp);
+        }else{
+            tmp[i] += 1;
+            substrs.push_back(tmp);
+            tmp[i]-=2;
+            substrs.push_back(tmp);
+        }
+        return substrs;   
+    }
+
+};
+
 // 双向BFS

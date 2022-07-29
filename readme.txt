@@ -25,3 +25,5 @@ s.erase(s.begin()+i+1); //删除i位置的点
 string.erase(pos,n);  删除从pos开始的n个字符    
 string.erase(0,1);   删除第一个字符
 string.erase(first,last)    //删除从first到last中间的字符（first和last都是string类型的迭代器）
+
+string p(n,'.'); // n个点

@@ -50,3 +50,39 @@ public:
         return ss.str();
     }
 };
+
+
+
+class Solution {
+public:
+    int numDistinctIslands(vector<vector<int>>& grid) {
+        set<string> s;
+        for(int i=0;i<grid.size();++i){
+            for(int j=0;j<grid[0].size();++j){
+                if(grid[i][j]==1){
+                    string str = "";
+                    dfs(grid,i,j,111,str);
+                    cout<<str<<endl;
+                    s.insert(str);
+                }
+            }
+        }
+        return s.size();
+    }
+    void dfs(vector<vector<int>>& grid,int i,int j,int num,string& str){
+        if(i<0||i>=grid.size()||j<0||j>=grid[0].size()||grid[i][j]==0){
+            return;
+        }
+        grid[i][j] = 0;
+        // 根据遍历的顺序序列化
+        str += to_string(num);
+        // 进的次序
+        str += '+';
+        dfs(grid,i+1,j,1,str);
+        dfs(grid,i-1,j,2,str);
+        dfs(grid,i,j+1,3,str);
+        dfs(grid,i,j-1,4,str);
+        // 出的次序
+        str +='-'+to_string(num);
+    }
+};
