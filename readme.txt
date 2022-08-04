@@ -27,3 +27,5 @@ string.erase(0,1);   删除第一个字符
 string.erase(first,last)    //删除从first到last中间的字符（first和last都是string类型的迭代器）
 
 string p(n,'.'); // n个点
+
+vec.insert(iter,elem); //iter迭代器之前插入元素elem

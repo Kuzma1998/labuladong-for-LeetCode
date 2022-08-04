@@ -42,3 +42,24 @@ public:
         return ans;
     }
 };
+
+
+
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int cur = 0; // 上一次的最远距离
+        int dis = 0; // 全局最远
+        int steps = 0; //步数
+        for(int i=0;i<nums.size()-1;++i){ // 只需要遍历到倒数第二个即可
+            dis = max(i+nums[i],dis);
+            // 当遍历坐标等于上一次最远距离的时候，更新
+            if(i==cur){
+                cur = dis;
+                ++steps;
+            }
+            
+        }
+        return steps;
+    }
+};
